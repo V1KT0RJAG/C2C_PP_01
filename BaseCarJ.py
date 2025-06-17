@@ -2,53 +2,52 @@ from basisklassen import FrontWheels, BackWheels
 import json
 import time
 
-class BaseCar():
-    
+class BaseCar:
+
     def __init__(self):
-        self._speed = 0
-        self._angle = 90
-        self.fw = FrontWheels()
-        self.bw = BackWheels()
-        self.offsetting()
+        self.__steering_angle = 0
+        self.__speed = 0
+        self.__direction = 0
+        print("BaseCar erzeugt")
         
-    def offsetting(path):
-            with open("config.json", "r") as f:
-                data = json.load(f)
-                turning_offset = data["turning_offset"]
-                forward_A = data["forward_A"]
-                forward_B = data["forward_B"]
-                fw = FrontWheels(turning_offset=turning_offset)
-                bw = BackWheels(forward_A=forward_A, forward_B=forward_B)
-    
+    @property
+    def getAngle(self):
+        print(self.__steering_angle)
+        return self.__steering_angle
+    def setAngle(self, angle):
+        if angle < 45:
+            self.__steering_angle = 45
+        elif angle > 135:
+            self.__steering_angle = 135
+        else:
+            self.__steering_angle = angle 
+
+    @property
+    def getSpeed(self):
+        print(self.__speed)
+        return self.__speed
+    def setSpeed(self, speed):
+        if speed < -100:
+            self.__speed = -100
+        elif speed > 100:
+            self.__speed = 100
+        else:
+            self.__speed = speed
+
+
+    @property
+    def getDirection(self):
+        print(self.__direction)
+        return self.__direction
+
     def drive(self, speed, angle):
         pass
+
     def stop(self):
-        self._speed = 0
-        
-    @property
-    def speed(self):
-        return self.speed
-    
-    @speed.setter
-    def speed(self, Geschwindigkeit):
-        if Geschwindigkeit < -100
-            speed = -100
-        elif Geschwindigkeit > 100
-            speed = 100
-        else:
-            Geschwindigkeit = speed
-    
-    @property
-    def steering_angle(self)
-        return self.steering_angle
-    
-    @steering_angle.setter(self, angle)
-        if angle > 135:
-            steering_angle = 135
-        elif angle < 45:
-            steering_angle = 45
-        else:
-            angle = steering_angle
-        
-        if angle == fw.get_angles
-            print(f"Lenkwinkel von {angle} wurde eingestellt")
+        self.setSpeed(0)
+
+    def log_speed():
+        pass
+
+    def read_config(path):
+        pass
