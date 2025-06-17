@@ -1,5 +1,4 @@
 import basisklassen
-import json
 
 class BaseCar:
 
@@ -33,6 +32,7 @@ class BaseCar:
         else:
             self.__speed = speed
 
+
     @property
     def getDirection(self):
         print(self.__direction)
@@ -47,19 +47,7 @@ class BaseCar:
     def log_speed():
         pass
 
-    def read_config():
-        try:
-            with open("config.json", "r") as f:
-                data = json.load(f)
-                turning_offset = data["turning_offset"]
-                forward_A = data["forward_A"]
-                forward_B = data["forward_B"]
-                print("Daten in config.json:")
-                print(" - Turning Offset: ", turning_offset)
-                print(" - Forward A: ", forward_A)
-                print(" - Forward B: ", forward_B)
-        except:
-            print("Keine geeignete Datei config.json gefunden!")
+    def read_config(path):
         pass
     
 car = BaseCar()
@@ -70,5 +58,5 @@ car.getSpeed
 car.setSpeed(80)
 car.getSpeed
 
-#Auto wird gestoppt
-car.stop()
+#Auto wird gestopptAdd commentMore actions
+car.stop()# from basisklassen import Ultrasonic, BackWheels, FrontWheels
