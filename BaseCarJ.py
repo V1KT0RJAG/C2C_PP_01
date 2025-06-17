@@ -13,21 +13,11 @@ class BaseCar:
         self.BW = BackWheels()
         print("BaseCar erzeugt")
         
-        """
-Getter und Setter haben den gleichen namen wie in der init methode
-als erstes muss property erstellt werden und dann den setter
 
-@property
-def steering_angle(self)
-    pass
-    
-@steering_angle.setter
-def steering_angle(self, angle)
-    pass
-
-       
-        """
-        
+ '''
+ Hier werden die Getter und Setter jeweils für den Lenkwinkel und Geschwindigkeit konfiguriert
+ 
+ '''       
     @property
     def getAngle(self):
         # print(self.__steering_angle)
@@ -63,7 +53,11 @@ def steering_angle(self, angle)
             print("Das Fahrzeug fährt Vorwärts")  
         return self.__direction
 
-    def drive(self, speed, angle):
+    def drive(self, speed, angle): # HIER noch kwargs hinzufügen ==> Falls nur ein Parameter gesetzt wird, soll der momentan aktuelle Wert des fehlenden Parameters beibehalten werden.
+        '''
+        Methode zum Setzen von Geschwindigkeit und Lenkwinkel. Die Methode soll das flexible Setzen beider Parameter erlauben. Falls nur ein Parameter gesetzt wird, soll der momentan aktuelle Wert des fehlenden Parameters beibehalten werden.
+        Die Methode soll auf den Properties beruhen bzw. diese verwenden.        
+        '''
         self.setSpeed(speed)
         self.setAngle(angle)
         if self.getSpeed == speed and self.getAngle == angle:
@@ -86,6 +80,9 @@ def steering_angle(self, angle)
         
 
     def stop(self):
+    '''
+    Methode um das Auto anzuhalten. Es setzt die Geschwindigkeit auf 0
+    '''
         self.setSpeed(0)
         print("Das Fahrzeug hält an !")
 
@@ -94,6 +91,9 @@ def steering_angle(self, angle)
 
     @property    
     def Config_offsett(self):
+    '''
+    Einlesen der Konfig-Datei um die Offsets von Lenkwinkel und Motordrehrichtung zu berücksichtigen    
+    '''
         with open("config.json", "r") as f:
             data = json.load(f)
             turning_offset = data["turning_offset"]
@@ -112,7 +112,25 @@ oben in __init__ self.fw (bw löschen)
 und dann in der py.datei von dem realen auto so die instanz erstellen:
 fw = FrontWheels()
 bw = BackWheels()
- """           
+ """   
+ 
+ 
+"""
+Getter und Setter haben den gleichen namen wie in der init methode
+als erstes muss property erstellt werden und dann den setter
+
+@property
+def steering_angle(self)
+    pass
+    
+@steering_angle.setter
+def steering_angle(self, angle)
+    pass
+
+       
+"""
+        
+        
 # car = BaseCar()
 
 # car.drive(50, 90)
