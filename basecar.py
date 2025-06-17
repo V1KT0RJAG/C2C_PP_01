@@ -90,5 +90,5 @@ car.speed
 car.speed = 80
 car.speed
 
-#Auto wird gestoppt
-car.stop()
+#Auto wird gestopptAdd commentMore actions
+car.stop()# from basisklassen import Ultrasonic, BackWheels, FrontWheels
