@@ -1,16 +1,22 @@
-class BaseCar:
-    """Klasse zur Simulation eines Autos mit Lenkung, Geschwindigkeit und Fahrtrichtung."""
+from basisklassen import BackWheels, FrontWheels
+import json
+import time
 
-    def __init__(self):
-        # Initialisiere die privaten Instanzvariablen
+class BaseCar:
+    """Erzeugen Klasse Basecar mit Lenkung, Geschwindigkeit und Fahrtrichtung."""
+
+    def __init__(self):        
         self.__steering_angle = 0   # Lenkwinkel in Grad
         self.__speed = 0            # Geschwindigkeit in km/h
         self.__direction = 0       # Fahrtrichtung in Grad
+        self.config_offset
+        print(f"Turning Offset{self.config_offset}")
         print("BaseCar erzeugt")
         
     @property
     def getAngle(self):
         """Gibt den aktuellen Lenkwinkel zurück."""
+        print (self.__steering_angle)
         return self.__steering_angle
 
     def setAngle(self, angle):
@@ -62,10 +68,23 @@ class BaseCar:
         """Gibt die aktuell eingestellte Geschwindigkeit aus."""
         print(f"Aktuelle Geschwindigkeit: {self.__speed}")
 
-    def read_config(self, path):
-        """Liest Konfiguration aus einer Datei (z.B. zur Einrichtung des Autos)."""
-        print(f"Konfiguration aus {path} gelesen.")
-    
+    @property
+    def config_offset(self):
+        """Liest die Config.json"""
+        with open("config.json", "r") as f:
+                data = json.load(f)
+                turning_offset = data["turning_offset"]
+                forward_A = data["forward_A"]
+                forward_B = data["forward_B"]
+                print("Daten in config.json:")
+                print(" - Turning Offset: ", turning_offset)
+                print(" - Forward A: ", forward_A)
+                print(" - Forward B: ", forward_B)
+                FrontWheels(turning_offset=turning_offset)
+                BackWheels(forward_A=forward_A, forward_B=forward_B)
+
+
+
 
 # Erstellen einer Auto-Instanz
 car = BaseCar()
