@@ -37,14 +37,12 @@ class BaseCar:
     def getDirection(self):
         print(self.__direction)
         return self.__direction
-    def setDirection(self, direc):
-        self.__steering_angle = direc 
 
-    def drive():
+    def drive(self, speed, angle):
         pass
 
-    def stop():
-        pass
+    def stop(self):
+        self.setSpeed(0)
 
     def log_speed():
         pass
@@ -59,3 +57,6 @@ car.setSpeed(-130)
 car.getSpeed
 car.setSpeed(80)
 car.getSpeed
+
+#Auto wird gestoppt
+car.stop()
