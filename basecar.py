@@ -58,3 +58,5 @@ car.getSpeed
 car.setSpeed(80)
 car.getSpeed
 
+#Auto wird gestopptAdd commentMore actions
+car.stop()# from basisklassen import Ultrasonic, BackWheels, FrontWheels
