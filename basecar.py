@@ -46,9 +46,16 @@ class BaseCar:
         print(self.__direction)
         return self.__direction
 
-    def drive(self, new_speed: int = speed, new_angle: int = steering_angle):                          # Falls nur ein Parameter gesetzt wird, soll der momentan aktuelle Wert des fehlenden Parameters beibehalten werden.
-        self.speed = new_speed
-        self.steering_angle = new_angle
+    def drive(self, new_speed = None, new_angle = None):                          # Falls nur ein Parameter gesetzt wird, soll der momentan aktuelle Wert des fehlenden Parameters beibehalten werden.
+        if new_speed is None:
+            self.speed = self.speed
+        else:
+            self.speed = new_speed
+
+        if new_angle is None:
+            self.steering_angle = self.steering_angle
+        else:
+            self.steering_angle = new_angle
         print(f"Geschwindigkeit von {self.speed} und Lenkwinkel von {self.steering_angle} wurde übermittelt")
         time.sleep(1)
         # print(self.steering_angle)
@@ -85,12 +92,13 @@ class BaseCar:
                 print(" - Forward B: ", forward_B)
         except:
             print("Keine geeignete Datei config.json gefunden!")
-            car.stop()
+            self.stop()
         else:
             print("Offset wurde geschrieben")
             self.front._turning_offset = turning_offset
             self.back.forward_A = forward_A
             self.back.forward_B = forward_B
+
         finally:
             pass
 
