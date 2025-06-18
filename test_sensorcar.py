@@ -2,6 +2,7 @@ import time
 from basecar import BaseCar
 from basisklassen import Ultrasonic, Infrared
 from SensorCar import SensorCar
+from SonicCar import SonicCar
 
 # Initialisiere reale Sensorobjekte
 ultrasonic_sensor = Ultrasonic()

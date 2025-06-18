@@ -9,7 +9,7 @@ def run_mode(mode):
     if mode == 3:
         car.fahrmodus_3(stop_distance=10)
     elif mode == 4:
-        car.fahrmodus_4(duration=30)
+        car.fahrmodus_4(duration=3)
     else:
         print("Ungültiger Modus:", mode)
         return

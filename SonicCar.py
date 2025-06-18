@@ -23,7 +23,7 @@ class SonicCar(BaseCar):
                 time.sleep(delay)
         print("[Fehler] Keine gültige Distanzmessung möglich.")
         #self.stop()
-        return 0
+        return -5
 
     def log_status(self):
         """Speichert den aktuellen Fahrzeugstatus und Sensorwert."""
