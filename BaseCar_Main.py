@@ -94,8 +94,8 @@ class BaseCar:
             self.stop()
         else:
             print("Offset wurde geschrieben")
-            self.front(turning_offset=turning_offset)
-            self.back(forward_A=forward_A, forward_B=forward_B)
+            self.front = self.front(turning_offset=turning_offset)
+            self.back = self.back(forward_A=forward_A, forward_B=forward_B)
         finally:
             pass
 
@@ -114,9 +114,5 @@ class BaseCar:
 """
 
 
-fw = FrontWheels
-bw = BackWheels
-
-car = BaseCar(fw, bw)
-
-car.drive(angle=80)
+ 
+    
