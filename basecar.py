@@ -17,6 +17,7 @@ class BaseCar:
     def steering_angle(self):
         #print(self.__steering_angle)
         return self.__steering_angle
+    
     @steering_angle.setter
     def steering_angle(self, angle):
         if angle < 45:
@@ -30,6 +31,7 @@ class BaseCar:
     def speed(self):
         #print(self.__speed)
         return self.__speed
+    
     @speed.setter
     def speed(self, new_speed):
         if new_speed < -100:
@@ -50,7 +52,7 @@ class BaseCar:
         else:
             self.speed = new_speed
         if new_angle is None:
-            self.steering_angle= self.steering_angle
+            self.steering_angle = self.steering_angle
         else:
             self.steering_angle = new_angle
 
@@ -95,9 +97,10 @@ class BaseCar:
             print(" - Turning Offset: ", turning_offset)
             print(" - Forward A: ", forward_A)
             print(" - Forward B: ", forward_B)
+            #self.front._servo.offset = turning_offset
             self.front._turning_offset = turning_offset
-            self.back.forward_A= forward_A
-            self.back.forward_B=forward_B
+            self.back.forward_A = forward_A
+            self.back.forward_B = forward_B
         finally:
             pass
 
