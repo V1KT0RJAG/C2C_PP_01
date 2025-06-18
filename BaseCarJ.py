@@ -5,7 +5,7 @@ import time
 class BaseCar:
 
     def __init__(self):
-        self.__steering_angle = 0
+        self.__steering_angle = 90
         self.__speed = 0
         self.__direction = 0
         self.Config_offsett
@@ -62,7 +62,7 @@ class BaseCar:
         self.setAngle(angle)
         if self.getSpeed == speed and self.getAngle == angle:
             print(f"Geschwindigkeit von {speed} und Lenkwinkel von {angle} wurde übermittelt")
-            time.sleep(1) # startet erst nach 1 Sek
+            time.sleep(0.5) # startet erst nach 1 Sek
             self.FW.turn(self.getAngle)
             # print(self.getAngle)
             # print(type(self.getAngle))
