@@ -46,7 +46,7 @@ class BaseCar:
         print(self.__direction)
         return self.__direction
 
-    def drive(self, new_speed: int = speed, new_angle: int = steering_angle):                          # Falls nur ein Parameter gesetzt wird, soll der momentan aktuelle Wert des fehlenden Parameters beibehalten werden.
+    def drive(self, new_speed: int = self.speed, new_angle: int = self.steering_angle):                          # Falls nur ein Parameter gesetzt wird, soll der momentan aktuelle Wert des fehlenden Parameters beibehalten werden.
         self.speed = new_speed
         self.steering_angle = new_angle
         print(f"Geschwindigkeit von {self.speed} und Lenkwinkel von {self.steering_angle} wurde übermittelt")
@@ -83,12 +83,11 @@ class BaseCar:
                 print(" - Forward B: ", forward_B)
         except:
             print("Keine geeignete Datei config.json gefunden!")
-            car.stop()
+            self.stop()
         else:
             print("Offset wurde geschrieben")
-            self.front._turning_offset = turning_offset
-            self.back.forward_A = forward_A
-            self.back.forward_B = forward_B
+            self.front(turning_offset=turning_offset)
+            self.back(forward_A=forward_A, forward_B=forward_B)
         finally:
             pass
 
@@ -96,6 +95,15 @@ class BaseCar:
 #           so würde es auch gehen nur dann müsste man bei der erstellung nur fw = FrontWheels schreiben ohne () weil erst in dem Code die "Räder" angebaut werden           
 #            FrontWheels(turning_offset=turning_offset) 
 #            BackWheeels(forward_A=forward_A, forward_B=forward_B)
+
+"""
+
+            print("Offset wurde geschrieben")
+            self.front._turning_offset = turning_offset
+            self.back.forward_A = forward_A
+            self.back.forward_B = forward_B
+            
+"""
 
 
 fw = basisklassen.FrontWheels()
