@@ -1,0 +1,64 @@
+/* Importiere die Roboto-Schriftarten in verschiedenen Gewichtungen */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Grundlegende Stile für den Body */
+body {
+  font-family: 'Roboto', sans-serif; /* Setzt die Schriftart auf Roboto */
+  background-color: #0d0d0d;         /* Sehr dunkler Hintergrund */
+  color: #e0e0e0;                    /* Helles Grau für Text */
+}
+
+/* Überschriften-Stile */
+h1, h2, h4 {
+  font-weight: 700;  /* Fette Schrift */
+  color: #ffffff;    /* Weißer Text */
+}
+
+/* Karten-Komponente */
+.card {
+  transition: box-shadow 0.3s ease;         /* Weiche Übergänge beim Hover */
+  border-radius: 12px;                      /* Abgerundete Ecken */
+  border: 1px solid #333333;                /* Dunkle Umrandung */
+  background-color: #1a1a1a;                /* Dunkler Hintergrund */
+  color: #e0e0e0;                           /* Heller Text */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Leichter Schatten */
+}
+
+/* Hover-Effekt für Karten */
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); /* Stärkerer Schatten beim Hover */
+}
+
+/* Textfarbe für Info-Elemente */
+.text-info {
+  color: #bb0a30 !important; /* Audi-Rot, mit Priorität */
+}
+
+/* Primär-Button-Stil */
+.btn-primary {
+  background-color: #bb0a30; /* Audi-Rot */
+  border-color: #bb0a30;     /* Gleiche Farbe für Rahmen */
+}
+
+/* Hover-Zustand für Primär-Button */
+.btn-primary:hover {
+  background-color: #a00929; /* Etwas dunkleres Rot */
+  border-color: #a00929;
+}
+
+/* Dropdown-Menü-Stil */
+.dropdown-menu {
+  background-color: #1a1a1a; /* Dunkler Hintergrund */
+  border: 1px solid #333333; /* Dunkle Umrandung */
+}
+
+/* Einzelne Dropdown-Elemente */
+.dropdown-item {
+  color: #d51a1a; /* Rötlicher Text */
+}
+
+/* Hover-Zustand für Dropdown-Elemente */
+.dropdown-item:hover {
+  background-color: #333333; /* Dunkler Hintergrund beim Hover */
+  color: #050505;            /* Sehr dunkler Text */
+}
