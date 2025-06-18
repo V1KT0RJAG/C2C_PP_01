@@ -46,7 +46,7 @@ class BaseCar:
         print(self.__direction)
         return self.__direction
 
-    def drive(self, new_speed: int = speed, new_angle: int = steering_angle):                          # Falls nur ein Parameter gesetzt wird, soll der momentan aktuelle Wert des fehlenden Parameters beibehalten werden.
+    def drive(self, new_speed: int = self.speed, new_angle: int = self.steering_angle):                          # Falls nur ein Parameter gesetzt wird, soll der momentan aktuelle Wert des fehlenden Parameters beibehalten werden.
         self.speed = new_speed
         self.steering_angle = new_angle
         print(f"Geschwindigkeit von {self.speed} und Lenkwinkel von {self.steering_angle} wurde übermittelt")

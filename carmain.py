@@ -7,3 +7,5 @@ fw = FrontWheels
 bw = BackWheels
 
 car = BaseCar(fw, bw)
+
+car.drive()
