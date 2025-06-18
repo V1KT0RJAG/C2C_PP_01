@@ -1,11 +1,15 @@
-import basisklassen
+from basisklassen import FrontWheels, BackWheels
+import json
 
 class BaseCar:
 
-    def __init__(self):
+    def __init__(self, front, back):
         self.__steering_angle = 0
         self.__speed = 0
         self.__direction = 0
+        self.fw = front
+        self.bw = back
+        self.read_config()
         print("BaseCar erzeugt")
         
     @property
@@ -47,10 +51,25 @@ class BaseCar:
     def log_speed():
         pass
 
-    def read_config(path):
-        pass
+    def read_config(self):
+        try:
+            with open("config.json", "r") as f:
+                data = json.load(f)
+                turning_offset = data["turning_offset"]
+                forward_A = data["forward_A"]
+                forward_B = data["forward_B"]
+                print("Daten in config.json:")
+                print(" - Turning Offset: ", turning_offset)
+                print(" - Forward A: ", forward_A)
+                print(" - Forward B: ", forward_B)
+        except:
+            print("Keine geeignete Datei config.json gefunden!")
+
+
+fw = FrontWheels()
+bw = BackWheels()
     
-car = BaseCar()
+car = BaseCar(fw, bw)
 car.setAngle(150)
 car.getAngle
 car.setSpeed(-130)
