@@ -4,7 +4,7 @@ import time
 class BaseCar:
 
     def __init__(self, front, back):
-        self.__steering_angle = 0
+        self.__steering_angle = 90
         self.__speed = 0
         self.__direction = 0
         self.front = front
@@ -47,6 +47,16 @@ class BaseCar:
         self.steering_angle = new_angle
         print(f"Geschwindigkeit von {self.speed} und Lenkwinkel von {self.steering_angle} wurde übermittelt")
         time.sleep(1)
+
+        if self.getSpeed >= 0:
+            self.BW.forward()
+            self.BW.left_wheel.speed = self.getSpeed
+            self.BW.right_wheel.speed = self.getSpeed
+        elif self.getSpeed < 0:
+            self.BW.backward()              
+            self.BW.left_wheel.speed = abs(self.getSpeed)
+            self.BW.right_wheel.speed = abs(self.getSpeed)
+         
 
         fw.turn(new_angle)
         print(new_angle)
