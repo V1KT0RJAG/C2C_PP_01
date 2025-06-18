@@ -68,27 +68,39 @@ class SensorCar(BaseCar):
 
     def fahrmodus_5(self):
         print("Fahrmodus 5 (PID): Linienverfolgung gestartet")
-        self.drive(speed=30, steering_angle=90)
+        self.drive(speed=70, steering_angle=90)
 
         start_time = time.time()
         weights = [-2, -1, 0, 1, 2]  # Sensor-Gewichtung
 
         # PID-Parameter
-        Kp = 20.0
-        Ki = 0.0
-        Kd = 0.0
+        Kp = 12.0
+        Ki = 1.0
+        Kd = 8.0
 
         last_error = 0
         integral = 0
 
-        while time.time() - start_time <= 40:
+        while time.time() - start_time <= 60:
             ir = self.infrared.read_digital()
             self.log_status()
 
             if sum(ir) == 0:
-                print("Linie verloren – Fahrzeug gestoppt.")
-                break
+                print("Linie verloren – Rückwärtsfahren und Neuversuch.")
+                self.drive(speed=-30, steering_angle=90)  # Rückwärts geradeaus
+                time.sleep(1)  # 1 Sekunde rückwärts fahren
+                self.stop()
+                time.sleep(0.5)
 
+                # Neuer Versuch: IR-Sensor erneut auslesen
+                ir = self.infrared.read_digital()
+                if sum(ir) == 0:
+                    print("Linie weiterhin nicht gefunden – Fahrzeug gestoppt.")
+                    break
+                else:
+                    print("Linie wiedergefunden – Fortsetzung der Fahrt.")
+                    self.drive(speed=70, steering_angle=90) # <<< WICHTIG: Wieder losfahren
+                    continue
             # Berechne Fehler (Abweichung von der Mitte)
             error = sum(w * s for w, s in zip(weights, ir))
             integral += error

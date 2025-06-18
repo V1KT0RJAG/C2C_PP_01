@@ -56,7 +56,8 @@ app.layout = dbc.Container([
                 id='mode-dropdown',
                 options=[
                     {'label': 'Fahrmodus 3', 'value': 3},
-                    {'label': 'Fahrmodus 4', 'value': 4}
+                    {'label': 'Fahrmodus 4', 'value': 4},
+                    {'label': 'Fahrmodus 5', 'value': '5_6'}
                 ],
                 value=4,
                 clearable=False,
@@ -104,8 +105,11 @@ def update_dashboard(n_clicks, mode):
     if n_clicks is None:
         return dash.no_update
 
-    # Fahrmodus ausführen
-    subprocess.run(["python3", "test_soniccar.py", str(mode)])
+    # Fahrmodus ausführen    
+    if mode == '5_6':
+        subprocess.run(["python3", "test_sensorcar.py", "5"])
+    else:
+        subprocess.run(["python3", "test_soniccar.py", str(mode)])
 
     # Neue Daten laden
     df = read_logfile()
