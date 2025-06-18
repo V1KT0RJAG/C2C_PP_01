@@ -85,12 +85,11 @@ class BaseCar:
                 print(" - Forward B: ", forward_B)
         except:
             print("Keine geeignete Datei config.json gefunden!")
-            car.stop()
+            self.stop()
         else:
             print("Offset wurde geschrieben")
-            self.front._turning_offset = turning_offset
-            self.back.forward_A = forward_A
-            self.back.forward_B = forward_B
+            self.front(turning_offset=turning_offset)
+            self.back(forward_A=forward_A, forward_B=forward_B)
         finally:
             pass
 
@@ -98,6 +97,15 @@ class BaseCar:
 #           so würde es auch gehen nur dann müsste man bei der erstellung nur fw = FrontWheels schreiben ohne () weil erst in dem Code die "Räder" angebaut werden           
 #            FrontWheels(turning_offset=turning_offset) 
 #            BackWheeels(forward_A=forward_A, forward_B=forward_B)
+
+"""
+
+            print("Offset wurde geschrieben")
+            self.front._turning_offset = turning_offset
+            self.back.forward_A = forward_A
+            self.back.forward_B = forward_B
+            
+"""
 
 
 # fw = basisklassen.FrontWheels()
