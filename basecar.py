@@ -17,7 +17,7 @@ class BaseCar:
         
     @property
     def steering_angle(self):
-        # print(self.__steering_angle)
+        print(self.__steering_angle)
         return self.__steering_angle
     @steering_angle.setter
     def steering_angle(self, angle):
@@ -65,8 +65,6 @@ class BaseCar:
             self.back.right_wheel.speed = abs(self.speed)
          
 
-
-
     def stop(self):
         self.speed = 0
         self.back.left_wheel.speed = self.speed
@@ -100,8 +98,8 @@ class BaseCar:
 #            BackWheeels(forward_A=forward_A, forward_B=forward_B)
 
 
-# fw = basisklassen.FrontWheels()
-# bw = basisklassen.BackWheels() 
+fw = basisklassen.FrontWheels()
+bw = basisklassen.BackWheels() 
 
 # car = BaseCar(fw, bw)
 # car.steering_angle = 140
