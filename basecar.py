@@ -1,28 +1,25 @@
-from basisklassen import BackWheels, FrontWheels
-import json
+""" from basisklassen import FrontWheels, BackWheels
 import time
+import json
 
 class BaseCar:
-    """Erzeugen Klasse Basecar mit Lenkung, Geschwindigkeit und Fahrtrichtung."""
 
-    def __init__(self):        
-        self.__steering_angle = 0   # Lenkwinkel in Grad
-        self.__speed = 0            # Geschwindigkeit in km/h
-        self.__direction = 0       # Fahrtrichtung in Grad
-        self.config_offset
-        print(f"Turning Offset{self.config_offset}")
+    def __init__(self, front, back):
+        self.__steering_angle = 90
+        self.__speed = 0
+        self.__direction = 0
+        self.front = front
+        self.back = back
+        self.read_config()
         print("BaseCar erzeugt")
         
     @property
-    def getAngle(self):
-        """Gibt den aktuellen Lenkwinkel zurück."""
-        print (self.__steering_angle)
+    def steering_angle(self):
+        #print(self.__steering_angle)
         return self.__steering_angle
-
-    def setAngle(self, angle):
-        """Setzt den Lenkwinkel.
-        Er muss zwischen 45 und 135 Grad liegen.
-        """
+    
+    @steering_angle.setter
+    def steering_angle(self, angle):
         if angle < 45:
             self.__steering_angle = 45
         elif angle > 135:
@@ -30,74 +27,170 @@ class BaseCar:
         else:
             self.__steering_angle = angle 
 
-
     @property
-    def getSpeed(self):
-        """Gibt die aktuelle Geschwindigkeit zurück."""
+    def speed(self):
+        #print(self.__speed)
         return self.__speed
     
-    def setSpeed(self, speed):
-        """Setzt die neue Geschwindigkeit.
-        Sie muss zwischen -100 und +100 liegen.
-        """
-        if speed < -100:
+    @speed.setter
+    def speed(self, new_speed):
+        if new_speed < -100:
             self.__speed = -100
-        elif speed > 100:
+        elif new_speed > 100:
             self.__speed = 100
         else:
-            self.__speed = speed
-
+            self.__speed = new_speed
 
     @property
-    def getDirection(self):
-        """Gibt die aktuell eingestellte Fahrtrichtung zurück."""
+    def direction(self):
+        #print(self.__direction)
         return self.__direction
 
-    def drive(self, speed, angle):
-        """Startet die Fahrt mit einer bestimmten Geschwindigkeit und einem Lenkwinkel."""
-        self.setSpeed(speed)
-        self.setAngle(angle)
-        print(f"Das Auto fährt mit {self.__speed} km/h in Richtung {self.__direction} mit Lenkwinkel {self.__steering_angle}")
+    def drive(self, new_speed=None, new_angle=None):
+        if new_speed is None:
+            self.speed = self.speed
+        else:
+            self.speed = new_speed
+        if new_angle is None:
+            self.steering_angle = self.steering_angle
+        else:
+            self.steering_angle = new_angle
+
+        print(f"Geschwindigkeit von {self.speed} und Lenkwinkel von {self.steering_angle} wurde übermittelt")
+        time.sleep(1)
+
+        if self.speed >= 0:
+            self.back.forward()
+            self.back.left_wheel.speed = self.speed
+            self.back.right_wheel.speed = self.speed
+        elif self.speed < 0:
+            self.back.backward()              
+            self.back.left_wheel.speed = abs(self.speed)
+            self.back.right_wheel.speed = abs(self.speed)
+
+        off = self.front._turning_offset 
+        self.steering_angle = self.steering_angle + off
+
+        self.front.turn(self.steering_angle)
+        print(self.steering_angle)
+        print(type(self.steering_angle))
 
     def stop(self):
-        """Bringt das Auto zum Stehen, indem die Geschwindigkeit auf 0 km/h ausgelegt wird."""
-        self.setSpeed(0)
-        print("Das Auto hat gestoppt")
+        self.speed = 0
+        self.back.left_wheel.speed = self.speed
+        self.back.right_wheel.speed = self.speed
 
-    def log_speed(self):
-        """Gibt die aktuell eingestellte Geschwindigkeit aus."""
-        print(f"Aktuelle Geschwindigkeit: {self.__speed}")
+    def read_config(self):
+        try:
+            with open("config.json", "r") as f:
+                data = json.load(f)
+
+        except:
+            print("Keine geeignete Datei config.json gefunden!")
+            self.stop()
+        else:
+            #dictionary
+            turning_offset = data.get("turning_offset")
+            forward_A = data["forward_A"]
+            forward_B = data["forward_B"]
+            print("Daten in config.json:")
+            print(" - Turning Offset: ", turning_offset)
+            print(" - Forward A: ", forward_A)
+            print(" - Forward B: ", forward_B)
+            #self.front._servo.offset = turning_offset
+            self.front._turning_offset = turning_offset
+            self.back.forward_A = forward_A
+            self.back.forward_B = forward_B
+        finally:
+            pass
+ """
+from basisklassen import FrontWheels, BackWheels
+import time
+import json
+
+class BaseCar:
+
+    def __init__(self, front, back):
+        self.__steering_angle = 90
+        self.__speed = 0
+        self.__direction = 0
+        self.front = front
+        self.back = back
+        self.read_config()
+        print("BaseCar erzeugt")
+        
+    @property
+    def steering_angle(self):
+        return self.__steering_angle
+    
+    @steering_angle.setter
+    def steering_angle(self, angle):
+        if angle < 45:
+            self.__steering_angle = 45
+        elif angle > 135:
+            self.__steering_angle = 135
+        else:
+            self.__steering_angle = angle 
 
     @property
-    def config_offset(self):
-        """Liest die Config.json"""
-        with open("config.json", "r") as f:
+    def speed(self):
+        return self.__speed
+    
+    @speed.setter
+    def speed(self, new_speed):
+        if new_speed < -100:
+            self.__speed = -100
+        elif new_speed > 100:
+            self.__speed = 100
+        else:
+            self.__speed = new_speed
+
+    @property
+    def direction(self):
+        return self.__direction
+
+    def drive(self, new_speed=None, new_angle=None):
+        if new_speed is not None:
+            self.speed = new_speed
+        if new_angle is not None:
+            self.steering_angle = new_angle
+
+        print(f"Fahre mit Geschwindigkeit {self.speed} und Lenkwinkel {self.steering_angle}")
+        time.sleep(1)
+
+        if self.speed >= 0:
+            self.back.forward()
+            self.back.left_wheel.speed = self.speed
+            self.back.right_wheel.speed = self.speed
+        else:
+            self.back.backward()              
+            self.back.left_wheel.speed = abs(self.speed)
+            self.back.right_wheel.speed = abs(self.speed)
+
+        off = self.front._turning_offset 
+        self.front.turn(self.steering_angle + off)
+
+    def stop(self):
+        self.speed = 0
+        self.back.left_wheel.speed = 0
+        self.back.right_wheel.speed = 0
+        print("Auto gestoppt.")
+
+    def read_config(self):
+        try:
+            with open("config.json", "r") as f:
                 data = json.load(f)
-                turning_offset = data["turning_offset"]
-                forward_A = data["forward_A"]
-                forward_B = data["forward_B"]
-                print("Daten in config.json:")
-                print(" - Turning Offset: ", turning_offset)
-                print(" - Forward A: ", forward_A)
-                print(" - Forward B: ", forward_B)
-                FrontWheels(turning_offset=turning_offset)
-                BackWheels(forward_A=forward_A, forward_B=forward_B)
-
-
-
-
-# Erstellen einer Auto-Instanz
-car = BaseCar()
-
-# Lenkwinkel ändern
-car.setAngle(150)
-print(car.getAngle)
-
-# Geschwindigkeit ändern
-car.setSpeed(-130)
-print(car.getSpeed)
-car.setSpeed(80)
-print(car.getSpeed)
-
-# Auto stoppen
-car.stop()
+        except:
+            print("Keine geeignete Datei config.json gefunden!")
+            self.stop()
+        else:
+            turning_offset = data.get("turning_offset", 0)
+            forward_A = data.get("forward_A", 1)
+            forward_B = data.get("forward_B", 1)
+            print("Daten aus config.json geladen:")
+            print(f" - Turning Offset: {turning_offset}")
+            print(f" - Forward A: {forward_A}")
+            print(f" - Forward B: {forward_B}")
+            self.front._turning_offset = turning_offset
+            self.back.forward_A = forward_A
+            self.back.forward_B = forward_B
