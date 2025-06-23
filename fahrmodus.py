@@ -45,7 +45,7 @@ class Fahrmodus:
         self.car.stop()
         print("Hindernis erkannt – Fahrzeug gestoppt.")
 
-    def fahrmodus_4(self, duration=30):
+    def fahrmodus_4(self, duration=30, distance_min=25):
         #Erkundungstour mit Hindernisvermeidung.
         print("Fahrmodus 4: Erkundungstour")
         start_time = time.time()
@@ -53,7 +53,7 @@ class Fahrmodus:
 
         while time.time() - start_time < duration:
             distance = self.car.get_distance()
-            if distance is not 0 and distance < 25:
+            if distance is not 0 and distance < distance_min:
                 print("Hindernis erkannt – Ausweichmanöver")
                 self.car.stop()
                 self.car.drive(new_speed=-30, new_angle=random.choice([45, 135]))
