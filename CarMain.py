@@ -1,10 +1,15 @@
 from BaseCar_Main import BaseCar
-from Fahrmodus import fahrmodus1, fahrmodus2
+from SonicCar import SonicCar
+from Fahrmodus import *
 from basisklassen import *
+import time
 
 
 fw = FrontWheels
 bw = BackWheels
+us = Ultrasonic()
 
 carb = BaseCar(fw, bw)
-# fahrmodus1(carb)
+cars = SonicCar(fw, bw, us)
+
+fahrmodus4(cars)

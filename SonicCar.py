@@ -10,16 +10,16 @@ class SonicCar(BaseCar):
         
     def get_distance(self):
         distance = self.ultra.distance()
-        print(distance)
+        return distance
 
 
 
 
-fw = FrontWheels
-bw = BackWheels
-ul = Ultrasonic()
+# fw = FrontWheels
+# bw = BackWheels
+# ul = Ultrasonic()
 
 
-cars = SonicCar(fw, bw, ul)
+# cars = SonicCar(fw, bw, ul)
 
-cars.get_distance() 
+# cars.get_distance() 
