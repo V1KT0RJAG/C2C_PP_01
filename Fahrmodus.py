@@ -1,13 +1,8 @@
 import time
-import logging
+import csv
 import random
+from datetime import datetime
 
-logging.basicConfig(
-    filename='fahrdaten_log.txt',
-    level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(message)s',
-    datefmt='%H:%M:%S'
-)
 
 def fahrmodus1(car):
     car.drive(speed=30, angle=90)
@@ -37,9 +32,6 @@ def fahrmodus3(car, set_dis):
         akt_dis = car.get_distance()
         car.drive(speed=30, angle=90)
         time.sleep(0.2)
-        # logging.info(f"Auto gestartet:" {speed}"Speed und mit einem Lenkwinkel von" {angle})
-        # print(type(akt_dis))
-
         if not isinstance(akt_dis, (int, float)) or akt_dis <= 0:
             print("Ungültige Messung:", akt_dis)
             time.sleep(0.2)
@@ -47,8 +39,7 @@ def fahrmodus3(car, set_dis):
 
         if akt_dis < set_dis:
             car.drive(speed=0)
-            # print(f"Hindernis erkannt (Abstand: {akt_dis}. Auto wird gestoppt.")
-            # logging.info(f"Hindernis erkannt Abstand:" {akt_dis}". Auto wird gestoppt.")
+
             break
             
 
@@ -57,9 +48,7 @@ def fahrmodus4(car):
         while True:
             akt_dis = car.get_distance()
             car.drive(speed=30, angle=90)
-            # logging.info(f"Auto gestartet: {car.speed}  Speed und mit einem Lenkwinkel von {car.angle}")
             car.drive(angle=random.choice([35,90,60,110,135]))
-
             if not isinstance(akt_dis, (int, float)) or akt_dis <= 0:
                 print("Ungültige Messung:", akt_dis)
                 continue
@@ -67,7 +56,6 @@ def fahrmodus4(car):
             if akt_dis < 15:
                 car.drive(speed=0)
                 print("Hindernis erkannt (Abstand:", akt_dis, "). Auto dreht sich.")
-                # logging.info(f"Hindernis erkannt Abstand: {akt_dis}. Auto wird gestoppt.")
                 car.drive(speed=-30, angle=35)
                 time.sleep(1)
                 car.drive(speed=0, angle =90)
@@ -82,5 +70,9 @@ def get_akt_values(car):
     angle = car.steering_angle
     dis =   car.get_distance
 
-    
+def log_sensor(speed, angle)
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open('sensordaten.csv', mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([timestamp, speed, angle])
          
