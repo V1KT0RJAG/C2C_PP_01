@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """ from basecar import BaseCar
 from SonicCar import SonicCar
 from Fahrmodus import *
@@ -43,3 +44,16 @@ def main():
 
 if __name__ == "__main__":
     main()
+=======
+from basisklassen import FrontWheels, BackWheels
+from basecar import BaseCar
+import time
+
+
+fw = FrontWheels
+bw = BackWheels
+
+car = BaseCar(fw, bw)
+
+car.drive()
+>>>>>>> main
