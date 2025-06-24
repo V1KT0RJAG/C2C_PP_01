@@ -2,6 +2,8 @@ from basisklassen import FrontWheels, BackWheels
 import time
 import json
 
+
+
 class BaseCar:
 
     def __init__(self, front, back):
@@ -77,6 +79,8 @@ class BaseCar:
 
     def stop(self):
         self.speed = 0
+        self.back.left_wheel.speed = self.speed
+        self.back.right_wheel.speed = self.speed
         self.back.left_wheel.speed = self.speed
         self.back.right_wheel.speed = self.speed
 
