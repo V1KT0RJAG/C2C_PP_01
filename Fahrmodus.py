@@ -32,7 +32,7 @@ def fahrmodus2(car):
     car.stop()
     
     
-def fahrmodus3(car):
+def fahrmodus3(car, set_dis):
     while True:
         akt_dis = car.get_distance()
         car.drive(speed=30, angle=90)
@@ -45,7 +45,7 @@ def fahrmodus3(car):
             time.sleep(0.2)
             continue
 
-        if akt_dis < 15:
+        if akt_dis < set_dis:
             car.drive(speed=0)
             # print(f"Hindernis erkannt (Abstand: {akt_dis}. Auto wird gestoppt.")
             # logging.info(f"Hindernis erkannt Abstand:" {akt_dis}". Auto wird gestoppt.")
@@ -75,4 +75,12 @@ def fahrmodus4(car):
         
     except KeyboardInterrupt:
         car.drive(speed=0, angle=90)
+        
+        
+def get_akt_values(car):
+    speed = car.speed
+    angle = car.steering_angle
+    dis =   car.get_distance
+
+    
          
