@@ -20,6 +20,13 @@ modus = Fahrmodus(sc)
 #modus.fahrmodus_3(stop_distance=20)
 modus.fahrmodus_4()
 
+#for eintrag in sc.log_status():
+    #readable_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(eintrag["timestamp"]))
+    #print(eintrag)#f"Zeit: {readable_time}, Geschwindigkeit: {eintrag['speed']}")
+
+print(sc.log_status())
+
+
 
 
 

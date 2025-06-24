@@ -84,6 +84,7 @@ class BaseCar:
         self.back.left_wheel.speed = self.speed
         self.back.right_wheel.speed = self.speed
 
+
     def read_config(self):
         try:
             with open("config.json", "r") as f:
@@ -125,5 +126,6 @@ car.speed
 car.speed = 80
 car.speed
  """
+
 #Auto wird gestopptAdd commentMore actions
 #car.stop()# from basisklassen import Ultrasonic, BackWheels, FrontWheels
