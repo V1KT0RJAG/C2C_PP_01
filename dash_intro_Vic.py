@@ -1,9 +1,17 @@
-import basecar as bc
-from dash import dcc, html, Dash
-import plotly.express as px
+# import basecar as bc
+# from dash import dcc, html, Dash
+# import plotly.express as px
 
-car = bc.BaseCar()
+import pandas as pd
 
-df1 = 
+# Read the CSV file
+df1 = pd.read_csv("simulated_car_data.csv")
 
-initial_figure = px.scatter(df1, )
+# View the first 5 rows
+df1.head(5)
+
+# car = bc.BaseCar()
+
+# df1 = 
+
+# initial_figure = px.scatter(df1, )
