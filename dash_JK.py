@@ -1,14 +1,19 @@
-from dash import html, Dash, dcc
+from dash import html, Dash, dcc, Input, Output,callback
 import plotly.express as px
 from Fahrmodus import*
 
-app = Dash()
+app = Dash(external_stylesheets=[dbc.themes.Slate])
 
 app.layout = html.Div(
-    html.H1(id="Fahrzeug Dashboard")
+    html.H1(id="Fahrzeug Dashboard"),
     
     
-    dcc.Dropdown(id="Fahrmodusauswahl", options=[Fahrmodus])
+    
+    dcc.Dropdown(['fahrmodus1', 'fahrmodus2', 'fahrmodus3', 'fahrmodus4'], 'fahrmodus1', id='Fahrmodusauswahl'),
+    html.Div(id='dd-output-container')
+
+    
+    dcc.Slider(id="Bitte den Abstand für den Ultraschallsensor einstellen in cm", 0, 60, 1, value=30)
     
     
     
@@ -20,8 +25,8 @@ app.layout = html.Div(
 
 
 @app.callback(
-    Output(),
-    Input()
+    Output('dd-output-container', 'children'),
+    Input('demo-dropdown', 'value')
        
 )
 
@@ -29,7 +34,8 @@ def graph_update():
     
     return output_values
 
-
+def update_output(value):
+    return f'You have selected {value}
 
 
 
