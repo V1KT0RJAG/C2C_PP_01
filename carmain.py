@@ -1,49 +1,42 @@
-from basisklassen import FrontWheels, BackWheels
+from basisklassen import FrontWheels, BackWheels, Ultrasonic
 from basecar import BaseCar
 from fahrmodus import Fahrmodus
+from soniccar import SonicCar
 import time
 
 
 fw = FrontWheels()
 bw = BackWheels() 
+usm = Ultrasonic()
 
-car = BaseCar(fw, bw)
+""" car = BaseCar(fw, bw)
 
 modus = Fahrmodus(car)
 #modus.fahrmodus_1()
-modus.fahrmodus_2()
+modus.fahrmodus_2() """
+
+sc = SonicCar(fw, bw, usm)
+modus = Fahrmodus(sc)
+#modus.fahrmodus_3(stop_distance=20)
+modus.fahrmodus_4()
 
 
-""" print("Fahrmodus 1: Vorwärts und Rückwärts")
-car.drive(30, 90)  # Geradeaus, langsam
-time.sleep(3)
-car.stop()
-time.sleep(1)
-car.drive(-30)  # Rückwärts, langsam
-time.sleep(3)
-car.stop()
-#car.drive(50, new_angle=90)
-print(fw._turning_offset)
 
-print("Fahrmodus 2: Kreisfahrt")
-# Geradeaus
-car.drive(40, 90)
-time.sleep(1)
 
-# Kreisfahrt im Uhrzeigersinn (maximaler Lenkwinkel rechts)
-car.drive(new_angle =45)
-time.sleep(8)
 
-# Stopp
-car.stop()
-time.sleep(1)
+""" stop_distance=25
+while sc.get_distance()>stop_distance:
+    sc.drive(new_speed=40, new_angle=90)
+    #bremsen Weg
+    bw= stop_distance + 10
+    if sc.get_distance()< bw:
+        sc.drive(new_speed=5, new_angle=90)
+        break
+sc.log_status()
+  
+sc.stop()
+#sc.drive(new_speed=0)
+print("Hindernis erkannt – Fahrzeug gestoppt.")  """
 
-# Rückfahrt: Kreisfahrt gegen den Uhrzeigersinn (maximaler Lenkwinkel links)
-car.drive(new_speed=-40, new_angle=135)
-time.sleep(8)
 
-# Geradeaus rückwärts
-car.drive(new_angle=90)
-time.sleep(1)
-
-car.stop() """
+    

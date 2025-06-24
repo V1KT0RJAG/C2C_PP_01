@@ -74,11 +74,13 @@ class BaseCar:
         self.steering_angle = self.steering_angle + off
 
         self.front.turn(self.steering_angle)
-        print(self.steering_angle)
-        print(type(self.steering_angle))
+        #print(self.steering_angle)
+        #print(type(self.steering_angle))
 
     def stop(self):
         self.speed = 0
+        self.back.left_wheel.speed = self.speed
+        self.back.right_wheel.speed = self.speed
         self.back.left_wheel.speed = self.speed
         self.back.right_wheel.speed = self.speed
 
