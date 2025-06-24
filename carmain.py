@@ -4,6 +4,11 @@ from fahrmodus import Fahrmodus
 from soniccar import SonicCar
 import time
 
+import pandas as pd 
+pd.__version__
+from pandas import Series, DataFrame 
+import numpy as np
+
 
 fw = FrontWheels()
 bw = BackWheels() 
@@ -18,13 +23,16 @@ modus.fahrmodus_2() """
 sc = SonicCar(fw, bw, usm)
 modus = Fahrmodus(sc)
 #modus.fahrmodus_3(stop_distance=20)
-modus.fahrmodus_4()
+#modus.fahrmodus_4()
 
 #for eintrag in sc.log_status():
     #readable_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(eintrag["timestamp"]))
     #print(eintrag)#f"Zeit: {readable_time}, Geschwindigkeit: {eintrag['speed']}")
 
-print(sc.log_status())
+#print(sc.log_status())
+log_df = DataFrame(sc.log_status())
+log_df
+
 
 
 
