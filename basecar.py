@@ -1,6 +1,9 @@
 from basisklassen import FrontWheels, BackWheels
-import time
+from datetime import datetime
 import json
+import os
+import csv
+import time
 
 
 
@@ -107,23 +110,29 @@ class BaseCar:
             self.back.forward_B = forward_B
         finally:
             pass
+        
+    def logging_data(self):
+        timestamp_data = datetime.now().strftime('%Y-%m-%d')
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        if os.path.exists(f"Loggdata_{timestamp_data}.csv"):
+            with open(f"Loggdata_{timestamp_data}.csv", mode="a", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow([timestamp, self.speed, self.steering_angle])
 
-""" 
-fw = FrontWheels()
-bw = BackWheels()
-car = BaseCar(fw, bw)
- """
+        else:
+            with open(f"Loggdata_{timestamp_data}.csv", mode="w", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow(["Timestamp", "Speed", "Lenkwinkel"])
+                writer.writerow([timestamp, self.speed, self.steering_angle])
 
-""" fw = basisklassen.FrontWheels()
-bw = basisklassen.BackWheels() 
+if __name__ == "__main__":
+    fw = FrontWheels()
+    bw = BackWheels()
+    car = BaseCar(fw, bw)
+    
+    car.logging_data()
+    time.sleep(1)
+    car.logging_data()
+    
+    
 
-car = BaseCar(fw, bw)
-car.steering_angle = 140
-car.steering_angle
-car.speed =-130
-car.speed
-car.speed = 80
-car.speed
- """
-#Auto wird gestopptAdd commentMore actions
-#car.stop()# from basisklassen import Ultrasonic, BackWheels, FrontWheels

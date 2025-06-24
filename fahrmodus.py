@@ -50,19 +50,20 @@ class Fahrmodus:
         print("Fahrmodus 4: Erkundungstour")
         start_time = time.time()
         self.car.drive(new_speed=40, new_angle=90)
-
+        self.car.logging_data()
         while time.time() - start_time < duration:
             distance = self.car.get_distance()
+            self.car.logging_data()
             if distance is not 0 and distance < distance_min:
                 print("Hindernis erkannt – Ausweichmanöver")
                 self.car.stop()
                 self.car.drive(new_speed=-30, new_angle=random.choice([45, 135]))
                 time.sleep(3)
-                #self.car.log_status()
-                
+                self.car.logging_data()                
                 self.car.drive(new_speed=40, new_angle=90)
 
         self.car.stop()
+        self.car.logging_data()
         print("Erkundungstour beendet.")
 
 """     def fahrmodus_4(self):

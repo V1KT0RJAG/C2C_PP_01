@@ -17,7 +17,7 @@ modus.fahrmodus_2() """
 
 sc = SonicCar(fw, bw, usm)
 modus = Fahrmodus(sc)
-#modus.fahrmodus_3(stop_distance=20)
+# modus.fahrmodus_3(stop_distance=20)
 modus.fahrmodus_4()
 
 

@@ -1,5 +1,9 @@
 from basecar import BaseCar
 from basisklassen import Ultrasonic, FrontWheels, BackWheels
+from datetime import datetime
+import json
+import os
+import csv
 import time
 
 #SonicCar Klasse
@@ -31,19 +35,21 @@ class SonicCar(BaseCar):
         #self.stop()  
         return 0
     
-    def log_status(self):
-        """Speichert den aktuellen Fahrzeugstatus und Sensorwert."""
-        distance = self.get_distance()
-        self.log.append({
-            "timestamp": time.time(),
-            "speed": self.speed,
-            "steering_angle": self.steering_angle,
-            "direction": self.direction,
-            "distance": distance
-        })
-        """Gibt das Fahrprotokoll zurück."""
-        return self.log
+    def logging_data(self):
+        timestamp_data = datetime.now().strftime('%Y-%m-%d') #Zeitstempel für den Dateinamen
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S') #Zeitstempel für die Messung
+        
+        
+        if os.path.exists(f"Loggdata_{timestamp_data}.csv"):
+            with open(f"Loggdata_{timestamp_data}.csv", mode="a", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow([timestamp, self.speed, self.steering_angle, self.ultra.distance()])
 
+        else:
+            with open(f"Loggdata_{timestamp_data}.csv", mode="w", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow(["Timestamp", "Speed", "Lenkwinkel","Ultraschallsensor"])
+                writer.writerow([timestamp, self.speed, self.steering_angle, self.ultra.distance()])
 
 if __name__ == "__main__":
     #test 
@@ -52,4 +58,4 @@ if __name__ == "__main__":
     usm = Ultrasonic()
 
     sc = SonicCar(fw, bw, usm)
-    sc.get_distance()
+    sc.logging_data()
