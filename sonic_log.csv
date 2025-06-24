@@ -1,0 +1,5 @@
+timestamp,speed,steering_angle,direction,distance
+34,40,90,0,10
+38,-30,45,0,9
+43,-30,45,0,10
+44,0,90,0,10

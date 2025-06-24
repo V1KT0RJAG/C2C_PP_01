@@ -35,7 +35,7 @@ class SonicCar(BaseCar):
         """Speichert den aktuellen Fahrzeugstatus und Sensorwert."""
         distance = self.get_distance()
         self.log.append({
-            "timestamp": time.time(),
+            "timestamp": time.strftime('%S'),
             "speed": self.speed,
             "steering_angle": self.steering_angle,
             "direction": self.direction,
@@ -43,7 +43,6 @@ class SonicCar(BaseCar):
         })
         """Gibt das Fahrprotokoll zurück."""
         return self.log
-
 
 if __name__ == "__main__":
     #test 
