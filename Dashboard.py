@@ -29,9 +29,9 @@ figLenk = px.line(df, x="Timestamp", y="Lenkwinkel", title="Lenkwinkelverlauf")
 figUltra = px.line(df, x="Timestamp", y="Ultraschallsensor", title="Ultraschallsensorverlauf")   
 
 # # min max mean ausrechen
-# maxspeed = df["Speed"].max()
-# minspeed = df["Speed"].min()
-# meanspeed = df["Speed"].mean()    
+maxspeed = df["Speed"].max()
+minspeed = df["Speed"].min()
+meanspeed = round(df["Speed"].mean(),2)    
 
 
 
@@ -53,7 +53,7 @@ app.layout = html.Div(children=[
             dbc.Card(
                 dbc.CardBody([
                     html.H4("Minimale Geschwindigkeit", className="card-title"),
-                    html.P(f"60 km/h", className="card-text")
+                    html.P(f"{minspeed} km/h", className="card-text")
                 ]), className="mb-4", color="primary", inverse=True
             ), width=4
         ),
@@ -61,7 +61,7 @@ app.layout = html.Div(children=[
             dbc.Card(
                 dbc.CardBody([
                     html.H4("Durchschnitt Geschwindigkeit", className="card-title"),
-                    html.P(f" 60 km/h", className="card-text")
+                    html.P(f"{meanspeed} km/h", className="card-text")
                 ]), className="mb-4", color="success", inverse=True
             ), width=4
         ),
@@ -69,7 +69,7 @@ app.layout = html.Div(children=[
             dbc.Card(
                 dbc.CardBody([
                     html.H4("Maximale Geschwindigkeit", className="card-title"),
-                    html.P(f"60 km/h", className="card-text")
+                    html.P(f"{maxspeed} km/h", className="card-text")
                 ]), className="mb-4", color="primary", inverse=True
             ), width=4
         ),
