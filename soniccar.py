@@ -4,10 +4,9 @@ import time
 
 #SonicCar Klasse
 class SonicCar(BaseCar):
-    def __init__(self, front, back, ultra):
-        super().__init__(front, back)
+    def __init__(self, front, back, ultra, values_to_log=["get_distance"]):
+        super().__init__(front, back, values_to_log)
         self.ultra = ultra
-        self.log = []
         #self.fahrmodi = fahrmodi
         print("SonicCar erzeugt")
         #print(self.ultra)
@@ -31,19 +30,18 @@ class SonicCar(BaseCar):
         #self.stop()  
         return 0
     
-    def log_status(self):
-        """Speichert den aktuellen Fahrzeugstatus und Sensorwert."""
-        distance = self.get_distance()
-        self.log.append({
-            "timestamp": time.time(),
-            "speed": self.speed,
-            "steering_angle": self.steering_angle,
-            "direction": self.direction,
-            "distance": distance
-        })
-        """Gibt das Fahrprotokoll zurück."""
-        return self.log
-
+    # def log_status(self):
+    #     """Speichert den aktuellen Fahrzeugstatus und Sensorwert."""
+    #     distance = self.get_distance()
+    #     self.log.append({
+    #         "timestamp": time.strftime('%S'),
+    #         "speed": self.speed,
+    #         "steering_angle": self.steering_angle,
+    #         "direction": self.direction,
+    #         "distance": distance
+    #     })
+    #     """Gibt das Fahrprotokoll zurück."""
+    #     return self.log
 
 if __name__ == "__main__":
     #test 

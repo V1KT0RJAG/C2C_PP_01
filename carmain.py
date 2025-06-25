@@ -3,6 +3,12 @@ from basecar import BaseCar
 from fahrmodus import Fahrmodus
 from soniccar import SonicCar
 import time
+import plotly.express as px
+
+
+import pandas as pd 
+from pandas import Series, DataFrame 
+import numpy as np
 
 
 fw = FrontWheels()
@@ -15,10 +21,25 @@ modus = Fahrmodus(car)
 #modus.fahrmodus_1()
 modus.fahrmodus_2() """
 
-sc = SonicCar(fw, bw, usm)
+sc = SonicCar(fw, bw, ultra=usm)
 modus = Fahrmodus(sc)
 #modus.fahrmodus_3(stop_distance=20)
 modus.fahrmodus_4()
+
+#for eintrag in sc.log_status():
+    #readable_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(eintrag["timestamp"]))
+    #print(eintrag)#f"Zeit: {readable_time}, Geschwindigkeit: {eintrag['speed']}")
+
+#print(sc.log_status())
+log_df = DataFrame(sc.data)
+
+# initial_fig = px.line(log_df, x="timestamp", y="speed")
+
+# initial_fig.show()
+
+log_df.to_csv("sonic_log.csv", index = False)
+
+
 
 
 
