@@ -1,3 +1,5 @@
+from basisklassen import FrontWheels, BackWheels, Ultrasonic
+from soniccar import SonicCar
 import dash
 from dash import dcc, html
 import dash_bootstrap_components as dbc
@@ -9,19 +11,26 @@ import plotly.express as px
 import subprocess
 from datetime import timedelta
 import  os
+from fahrmodus import Fahrmodus
 
-# Funktion zum Einlesen der Logdatei
-# def read_logfile():
-#     logfile_path = "fahrprotokoll.log"
-#     data = []
-#     with open(logfile_path, "r") as file:
-#         for line in file:
-#             try:
-#                 entry = ast.literal_eval(line.strip())
-#                 data.append(entry)
-#             except Exception as e:
-#                 print(f"Fehler beim Parsen der Zeile: {line} – {e}")
-#     return pd.DataFrame(data)
+
+#Auto erstellen
+fw = FrontWheels()
+bw = BackWheels() 
+usm = Ultrasonic()
+sc = SonicCar(fw, bw, ultra=usm)
+fm = Fahrmodus(sc)
+
+# Initialdaten laden
+if os.path.exists("sonic_log.csv"):
+    df = pd.read_csv('sonic_log.csv', delimiter=',')
+# else:
+#     df = DataFrame({
+#         "UTCtime":[0],
+#         "timestamp":[0],
+#         "speed":[0],
+#         "steering_angle":[0]
+#     })
 
 
 
@@ -36,17 +45,7 @@ def calculate_kpis(df):
     total_time_str = str(timedelta(seconds=total_time))
     return max_speed, min_speed, avg_speed, total_time_str
  
-# Initialdaten laden
-if os.path.exists("sonic_log.csv"):
-    df = pd.read_csv('sonic_log.csv', delimiter=',')
-# else:
-#     df = DataFrame({
-#         "UTCtime":[0],
-#         "timestamp":[0],
-#         "speed":[0],
-#         "steering_angle":[0]
-#     })
- 
+
 max_speed, min_speed, avg_speed, total_time_str = calculate_kpis(df)
 df['time'] = pd.to_datetime(df['UTCtime'], unit='s')
 fig = px.line(df, x='time', y='speed', title='Geschwindigkeit über Zeit',
@@ -111,26 +110,30 @@ app.layout = dbc.Container([
  
 # Callback zur Ausführung des Fahrmodus und Aktualisierung
 @app.callback(
-    [Output('max-speed', 'children'),
-     Output('min-speed', 'children'),
-     Output('avg-speed', 'children'),
-     Output('total-time', 'children'),
+    Output('max-speed', 'children'),
+    Output('min-speed', 'children'),
+    Output('avg-speed', 'children'),
+    Output('total-time', 'children'),
     #  Output('total-distance', 'children'),
-     Output('speed-graph', 'figure')],
-    [Input('start-button', 'n_clicks')],
-    [Input('mode-dropdown', 'value')]
+    Output('speed-graph', 'figure'),
+    Input('start-button', 'n_clicks'),
+    Input('mode-dropdown', 'value')
 )
+
+#reihenfolge muss mit Input übereinstimmen
 def update_dashboard(n_clicks, mode):
     if n_clicks is None:
-        return dash.no_update
+       # return dash.no_update,"","","",""
+       return dash.no_update
  
     # Fahrmodus ausführen
-    subprocess.run(["python3", "soniccar.py", str(mode)])
+    #subprocess.run(["python3", "carmain.py"])
+    fm.user_selected_mode(mode)
  
     # Neue Daten laden
     df = pd.read_csv('sonic_log.csv', delimiter=',')
     max_speed, min_speed, avg_speed, total_time_str = calculate_kpis(df)
-    df['time'] = pd.to_datetime(df['timestamp'], unit='s')
+    df['time'] = pd.to_datetime(df['UTCtime'], unit='s')
     fig = px.line(df, x='time', y='speed', title='Geschwindigkeit über Zeit',
                   labels={'time': 'Zeit', 'speed': 'Geschwindigkeit (km/h)'},
                   template='plotly_dark')

@@ -2,6 +2,7 @@ from basisklassen import FrontWheels, BackWheels
 import time
 import json
 from datetime import datetime
+from pandas import DataFrame
 
 
 class BaseCar:
@@ -129,7 +130,11 @@ class BaseCar:
                 self.data[name] = [attr]
                 
         print("LOG-DICT: ", self.data)
-            
+    
+    #save the log
+    def save_log(self):
+        log_df = DataFrame(self.data)
+        log_df.to_csv("sonic_log.csv", index = False)    
 
 
 if __name__ == "__main__":
