@@ -1,4 +1,4 @@
-timestamp,speed,steering_angle,direction,distance
+UTCtime,speed,steering_angle,direction,distance
 1750769729.8252933,40,90,0,7
 1750769735.0127,-30,45,0,10
 1750769740.1196227,-30,135,0,23
