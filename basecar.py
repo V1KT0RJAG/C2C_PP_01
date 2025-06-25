@@ -1,7 +1,7 @@
 from basisklassen import FrontWheels, BackWheels
 import time
 import json
-
+from datetime import datetime
 
 
 class BaseCar:
@@ -12,7 +12,7 @@ class BaseCar:
         self.__direction = 0
         self.front = front
         self.back = back
-        self.values_to_log = ["speed", "direction", "steering_angle"] + values_to_log
+        self.values_to_log = ["UTCtime","timestamp", "speed", "direction", "steering_angle"] + values_to_log
         self.data = {}
         self.read_config()
         print("BaseCar erzeugt")
@@ -112,7 +112,8 @@ class BaseCar:
             pass
         
     def log(self):
-
+        self.UTCtime = time.time()
+        self.timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         for name in self.values_to_log:
             
             attr = getattr(self, name, None)
@@ -131,14 +132,12 @@ class BaseCar:
             
 
 
+if __name__ == "__main__":
+    fw = FrontWheels()
+    bw = BackWheels()
+    car = BaseCar(fw, bw)
 
-# fw = FrontWheels()
-# bw = BackWheels()
-# car = BaseCar(fw, bw, values_to_log=["distance"])
-
-
-# car.distance()
-# car.log()
+    car.log()
 # car.log()
 """ 
 fw = FrontWheels()

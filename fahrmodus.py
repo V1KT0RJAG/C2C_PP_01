@@ -64,7 +64,9 @@ class Fahrmodus:
                 self.car.log()
                 
                 self.car.drive(new_speed=40, new_angle=90)
-
+                #Logfile 3
+                self.car.log()
+                
         self.car.stop()
         print("Erkundungstour beendet.")
 

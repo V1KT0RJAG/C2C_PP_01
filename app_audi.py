@@ -8,6 +8,7 @@ import ast
 import plotly.express as px
 import subprocess
 from datetime import timedelta
+import  os
 
 # Funktion zum Einlesen der Logdatei
 # def read_logfile():
@@ -30,16 +31,24 @@ def calculate_kpis(df):
     #?? negative Geschwindigkeit
     min_speed = df['speed'].min()
     avg_speed = abs(df['speed'].mean())
-    total_time = df['timestamp'].max() - df['timestamp'].min()
+    total_time = df['UTCtime'].max() - df['UTCtime'].min()
     #?? str und runden
     total_time_str = str(timedelta(seconds=total_time))
     return max_speed, min_speed, avg_speed, total_time_str
  
 # Initialdaten laden
-df = pd.read_csv('sonic_log_good_data.csv', delimiter=',')
+if os.path.exists("sonic_log.csv"):
+    df = pd.read_csv('sonic_log.csv', delimiter=',')
+# else:
+#     df = DataFrame({
+#         "UTCtime":[0],
+#         "timestamp":[0],
+#         "speed":[0],
+#         "steering_angle":[0]
+#     })
  
 max_speed, min_speed, avg_speed, total_time_str = calculate_kpis(df)
-df['time'] = pd.to_datetime(df['timestamp'], unit='s')
+df['time'] = pd.to_datetime(df['UTCtime'], unit='s')
 fig = px.line(df, x='time', y='speed', title='Geschwindigkeit über Zeit',
               labels={'time': 'Zeit', 'speed': 'Geschwindigkeit (km/h)'},
               template='plotly_dark')
@@ -60,6 +69,8 @@ app.layout = dbc.Container([
             dcc.Dropdown(
                 id='mode-dropdown',
                 options=[
+                    {'label': 'Fahrmodus 1', 'value': 1},                    
+                    {'label': 'Fahrmodus 2', 'value': 2},
                     {'label': 'Fahrmodus 3', 'value': 3},
                     {'label': 'Fahrmodus 4', 'value': 4}
                 ],
@@ -82,6 +93,9 @@ app.layout = dbc.Container([
         dbc.Col(dbc.Card(dbc.CardBody([
             html.H4("⚖️ Avg Speed"), html.H2(id="avg-speed", children=f"{avg_speed:.2f} km/h")
         ])), width=3),
+        # dbc.Col(dbc.Card(dbc.CardBody([
+        #     html.H4("🗺️ Total distance"), html.H2(id="total-distance", children=total_distance)
+        # ])), width=3),
         dbc.Col(dbc.Card(dbc.CardBody([
             html.H4("⏱️ Total Time"), html.H2(id="total-time", children=total_time_str)
         ])), width=3),
@@ -101,6 +115,7 @@ app.layout = dbc.Container([
      Output('min-speed', 'children'),
      Output('avg-speed', 'children'),
      Output('total-time', 'children'),
+    #  Output('total-distance', 'children'),
      Output('speed-graph', 'figure')],
     [Input('start-button', 'n_clicks')],
     [Input('mode-dropdown', 'value')]
@@ -110,10 +125,10 @@ def update_dashboard(n_clicks, mode):
         return dash.no_update
  
     # Fahrmodus ausführen
-    subprocess.run(["python3", "test_soniccar.py", str(mode)])
+    subprocess.run(["python3", "soniccar.py", str(mode)])
  
     # Neue Daten laden
-    df = pd.read_csv('sonic_log_good_data.csv', delimiter=',')
+    df = pd.read_csv('sonic_log.csv', delimiter=',')
     max_speed, min_speed, avg_speed, total_time_str = calculate_kpis(df)
     df['time'] = pd.to_datetime(df['timestamp'], unit='s')
     fig = px.line(df, x='time', y='speed', title='Geschwindigkeit über Zeit',
