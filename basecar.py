@@ -6,12 +6,13 @@ import json
 
 class BaseCar:
 
-    def __init__(self, front, back):
+    def __init__(self, front, back, values_to_log=[]):
         self.__steering_angle = 90
         self.__speed = 0
         self.__direction = 0
         self.front = front
         self.back = back
+        self.values_to_log = ["speed", "direction"] + values_to_log
         self.read_config()
         print("BaseCar erzeugt")
         
@@ -83,6 +84,9 @@ class BaseCar:
         self.back.right_wheel.speed = self.speed
         self.back.left_wheel.speed = self.speed
         self.back.right_wheel.speed = self.speed
+        
+    def distance(self):
+        return "1m"
 
 
     def read_config(self):
@@ -108,7 +112,36 @@ class BaseCar:
             self.back.forward_B = forward_B
         finally:
             pass
+        
+    def log(self):
+        data = {}
+        
+        for name in self.values_to_log:
+            
+            attr = getattr(self, name, None)
+            if callable(attr):
+                attr = attr()
+            print(f"{name}: {type(attr)}, {attr}")
+            
+            if name in data:
+                data[name].append(attr)
+                
+            else:
+                data[name] = [attr]
+                
+        print("LOG-DICT: ", data)
+            
 
+
+
+fw = FrontWheels()
+bw = BackWheels()
+car = BaseCar(fw, bw, values_to_log=["steering_angle", "distance"])
+
+
+car.distance()
+car.log()
+car.log()
 """ 
 fw = FrontWheels()
 bw = BackWheels()
@@ -126,6 +159,7 @@ car.speed
 car.speed = 80
 car.speed
  """
+# car = BaseCar(values_to_log = ["speed", "steering_angle", "direction"])
 
 #Auto wird gestopptAdd commentMore actions
 #car.stop()# from basisklassen import Ultrasonic, BackWheels, FrontWheels
