@@ -199,3 +199,4 @@ cython_debug/
 .cursorindexingignore
 .vscode/settings.json
 test.drawio
+*.csv
