@@ -21,7 +21,7 @@ modus = Fahrmodus(car)
 #modus.fahrmodus_1()
 modus.fahrmodus_2() """
 
-sc = SonicCar(fw, bw, usm)
+sc = SonicCar(fw, bw, ultra=usm)
 modus = Fahrmodus(sc)
 #modus.fahrmodus_3(stop_distance=20)
 modus.fahrmodus_4()
@@ -31,7 +31,7 @@ modus.fahrmodus_4()
     #print(eintrag)#f"Zeit: {readable_time}, Geschwindigkeit: {eintrag['speed']}")
 
 #print(sc.log_status())
-log_df = DataFrame(sc.log_status())
+log_df = DataFrame(sc.data)
 
 # initial_fig = px.line(log_df, x="timestamp", y="speed")
 
