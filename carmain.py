@@ -24,7 +24,7 @@ modus.fahrmodus_2() """
 sc = SonicCar(fw, bw, ultra=usm)
 modus = Fahrmodus(sc)
 #modus.fahrmodus_3(stop_distance=20)
-modus.fahrmodus_4()
+modus.fahrmodus_4(duration=45)
 
 #for eintrag in sc.log_status():
     #readable_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(eintrag["timestamp"]))
