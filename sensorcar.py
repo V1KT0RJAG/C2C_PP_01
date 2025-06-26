@@ -230,13 +230,15 @@ while True:
 
     if sum(sc.digital) == 0:
         counter += 1
-        time.sleep(1.5)
+        
+        if counter > 100:
+            # Wenn alle Sensoren 0 melden, ist die Linie verloren
+            print("Linie verloren – Fahrzeug gestoppt.")
+            sc.stop()
+            break
+        continue
+        #time.sleep(1.5)
 
-    if counter > 5:
-        # Wenn alle Sensoren 0 melden, ist die Linie verloren
-        print("Linie verloren – Fahrzeug gestoppt.")
-        sc.stop()
-        break
 
     if sc.digital == [0, 0, 1, 0, 0]:
         sc.drive(new_angle=90)  # Geradeaus
