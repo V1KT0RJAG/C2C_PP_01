@@ -234,50 +234,40 @@ while True:
         sc.stop()
         break
     #[1,0,0,0,0]
-    if sc.digital[0] == 1:
+    elif sc.digital[0] == 1:
         sc.drive(new_speed=20, new_angle=45)
 
     #[1,1,0,0,0]
-    if sc.digital[0] == 1 and sc.digital[1] == 1:
-        sc.drive(new_speed=20, new_angle=45)
+    elif sc.digital[0] == 1 and sc.digital[1] == 1:
+        sc.drive(new_speed=20, new_angle=60)
 
     #[0,1,0,0,0]
-    if sc.digital[1] == 1:
-        sc.drive(new_speed=20, new_angle=45)
+    elif sc.digital[1] == 1:
+        sc.drive(new_speed=20, new_angle=75)
 
     #[0,0,1,0,0] 
-    if sc.digital[2] == 1:
+    elif sc.digital[2] == 1:
         sc.drive(new_speed=20, new_angle=90)
 
     #[0,1,1,0,0]
-    if sc.digital[1] == 1 and sc.digital[2] ==1:
+    elif sc.digital[1] == 1 and sc.digital[2] ==1:
         sc.drive(new_speed=20, new_angle=90)
 
     #[0,0,1,1,0]
-    if sc.digital[2] == 1 and sc.digital[3] ==1:
+    elif sc.digital[2] == 1 and sc.digital[3] ==1:
         sc.drive(new_speed=20, new_angle=90)
 
     #[0,0,0,1,0]
-    if sc.digital[3] == 1:
-        sc.drive(new_speed=20, new_angle=135)
+    elif sc.digital[3] == 1:
+        sc.drive(new_speed=20, new_angle=120)
 
     #[0,0,0,1,1]
-    if sc.digital[3] == 1 and sc.digital[4] == 1:
+    elif sc.digital[3] == 1 and sc.digital[4] == 1:
         sc.drive(new_speed=20, new_angle=135)
 
     #[0,0,0,0,1]
-    if sc.digital[4] == 1:
+    elif sc.digital[4] == 1:
         sc.drive(new_speed=20, new_angle=135)
-
-    #[0,0,0,0,0], [1,1,1,1,1], [1,1,0,0,0]
-    else:
-        sc.drive()
-        # sc.drive(new_speed=40, new_angle=90)
-        # time.sleep(1)
-        # sc.drive(new_speed=40, new_angle=135)
-        # time.sleep(1)
-        # sc.drive(new_speed=40, new_angle=135)
-        # time.sleep(1)
     
     time.sleep(0.1)  # Kurze Pause für stabile Steuerung
 
