@@ -180,8 +180,8 @@ time.sleep(5)
 # #linie vefolgen
 print("Fahrmodus 5:")
 start_time = time.time()
-sc.drive(new_speed=30, new_angle=90)
-
+sc.drive(new_speed=20, new_angle=90)
+counter = 0
 
 <<<<<<< HEAD
 while drive_duration<20:
@@ -229,11 +229,25 @@ while True:
     sc.get_ir()
 
     if sum(sc.digital) == 0:
+        counter += 1
+        time.sleep(1.5)
+
+    if counter > 5:
         # Wenn alle Sensoren 0 melden, ist die Linie verloren
         print("Linie verloren – Fahrzeug gestoppt.")
         sc.stop()
         break
-    #[1,0,0,0,0]
+
+    if sc.digital == [0, 0, 1, 0, 0]:
+        sc.drive(new_angle=90)  # Geradeaus
+    elif sc.digital [0] == 1 or sc.digital [1] == 1:
+        sc.drive(new_angle=55)  # Nach links lenken
+    elif sc.digital [3] == 1 or sc.digital [4] == 1:
+        sc.drive(new_angle=125) # Nach rechts lenken   
+    else:
+        sc.drive(new_angle=90)  # Standard: geradeaus
+    time.sleep(0.1)  # Kurze Pause für stabile Steuerung
+"""     #[1,0,0,0,0]
     elif sc.digital[0] == 1:
         sc.drive(new_speed=20, new_angle=45)
 
@@ -245,17 +259,17 @@ while True:
     elif sc.digital[1] == 1:
         sc.drive(new_speed=20, new_angle=75)
 
+    #[0,1,1,0,0]
+    elif sc.digital[1] == 1 and sc.digital[2] ==1:
+        sc.drive(new_speed=20, new_angle=80)
+
     #[0,0,1,0,0] 
     elif sc.digital[2] == 1:
         sc.drive(new_speed=20, new_angle=90)
 
-    #[0,1,1,0,0]
-    elif sc.digital[1] == 1 and sc.digital[2] ==1:
-        sc.drive(new_speed=20, new_angle=90)
-
     #[0,0,1,1,0]
     elif sc.digital[2] == 1 and sc.digital[3] ==1:
-        sc.drive(new_speed=20, new_angle=90)
+        sc.drive(new_speed=20, new_angle=95)
 
     #[0,0,0,1,0]
     elif sc.digital[3] == 1:
@@ -263,13 +277,13 @@ while True:
 
     #[0,0,0,1,1]
     elif sc.digital[3] == 1 and sc.digital[4] == 1:
-        sc.drive(new_speed=20, new_angle=135)
+        sc.drive(new_speed=20, new_angle=125)
 
     #[0,0,0,0,1]
     elif sc.digital[4] == 1:
         sc.drive(new_speed=20, new_angle=135)
     
-    time.sleep(0.1)  # Kurze Pause für stabile Steuerung
+    time.sleep(0.1)  # Kurze Pause für stabile Steuerung """
 
 sc.drive(new_speed=0, new_angle=90)
 sc.stop()
