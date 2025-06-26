@@ -30,7 +30,7 @@ def calculate_kpis(df):
     #?? negative Geschwindigkeit
     min_speed = df['speed'].min()
     avg_speed = abs(df['speed'].mean())
-    total_time = df['timestamp'].max() - df['timestamp'].min()
+    total_time = df['UTCtime'].max() - df['UTCtime'].min()
     #?? str und runden
     total_time_str = str(timedelta(seconds=total_time))
     return max_speed, min_speed, avg_speed, total_time_str
@@ -39,7 +39,7 @@ def calculate_kpis(df):
 df = pd.read_csv('sonic_log_good_data.csv', delimiter=',')
  
 max_speed, min_speed, avg_speed, total_time_str = calculate_kpis(df)
-df['time'] = pd.to_datetime(df['timestamp'], unit='s')
+df['time'] = pd.to_datetime(df['UTCtime'], unit='s')
 fig = px.line(df, x='time', y='speed', title='Geschwindigkeit über Zeit',
               labels={'time': 'Zeit', 'speed': 'Geschwindigkeit (km/h)'},
               template='plotly_dark')
