@@ -37,6 +37,9 @@ class SensorCar(BaseCar):
     def get_ir(self):
         #Logik aufbauen
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3c70140 (update v2)
         self.analog = self.infra.read_analog() 
         self.digital = self.infra.read_digital()
         print(self.analog, self.digital)
@@ -73,6 +76,7 @@ usm = Ultrasonic()
 ir = Infrared()
 sc = SensorCar(fw, bw, ultra=usm, infra=ir)
 
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 fm = Fahrmodus(sc)
@@ -160,18 +164,26 @@ sc.stop()"""
 analog = ir.read_analog()
 digital = ir.read_digital()
 print(f"Analog: {analog} | Digital: {digital}")
+=======
+# #ir.test()
+sc.get_ir()
+
+# analog = ir.read_analog()
+# digital = ir.read_digital()
+# print(f"Analog: {analog} | Digital: {digital}")
+>>>>>>> 3c70140 (update v2)
 ir.cali_references()
 ir.set_references
 time.sleep(5)
 
 # #fahrmodus 5
 # #linie vefolgen
-# print("Fahrmodus 5:")
-# start_time = time.time()
-# sc.drive(new_speed=40, new_angle=90)
+print("Fahrmodus 5:")
+start_time = time.time()
+sc.drive(new_speed=30, new_angle=90)
 
-# drive_duration = 0
 
+<<<<<<< HEAD
 while drive_duration<20:
     #[1,0,0,0,0]
     if digital[0] == 1:
@@ -207,3 +219,68 @@ while drive_duration<20:
 
 sc.stop()
 >>>>>>> f816594 (1st ver not working)
+=======
+while True:
+    # Prüfe, ob 20 Sekunden vergangen sind
+    if time.time() - start_time > 20:
+        print("Zeitlimit erreicht – Fahrzeug gestoppt.")
+        sc.stop()
+        break
+    sc.get_ir()
+
+    if sum(sc.digital) == 0:
+        # Wenn alle Sensoren 0 melden, ist die Linie verloren
+        print("Linie verloren – Fahrzeug gestoppt.")
+        sc.stop()
+        break
+    #[1,0,0,0,0]
+    if sc.digital[0] == 1:
+        sc.drive(new_speed=20, new_angle=45)
+
+    #[1,1,0,0,0]
+    if sc.digital[0] == 1 and sc.digital[1] == 1:
+        sc.drive(new_speed=20, new_angle=45)
+
+    #[0,1,0,0,0]
+    if sc.digital[1] == 1:
+        sc.drive(new_speed=20, new_angle=45)
+
+    #[0,0,1,0,0] 
+    if sc.digital[2] == 1:
+        sc.drive(new_speed=20, new_angle=90)
+
+    #[0,1,1,0,0]
+    if sc.digital[1] == 1 and sc.digital[2] ==1:
+        sc.drive(new_speed=20, new_angle=90)
+
+    #[0,0,1,1,0]
+    if sc.digital[2] == 1 and sc.digital[3] ==1:
+        sc.drive(new_speed=20, new_angle=90)
+
+    #[0,0,0,1,0]
+    if sc.digital[3] == 1:
+        sc.drive(new_speed=20, new_angle=135)
+
+    #[0,0,0,1,1]
+    if sc.digital[3] == 1 and sc.digital[4] == 1:
+        sc.drive(new_speed=20, new_angle=135)
+
+    #[0,0,0,0,1]
+    if sc.digital[4] == 1:
+        sc.drive(new_speed=20, new_angle=135)
+
+    #[0,0,0,0,0], [1,1,1,1,1], [1,1,0,0,0]
+    else:
+        sc.drive()
+        # sc.drive(new_speed=40, new_angle=90)
+        # time.sleep(1)
+        # sc.drive(new_speed=40, new_angle=135)
+        # time.sleep(1)
+        # sc.drive(new_speed=40, new_angle=135)
+        # time.sleep(1)
+    
+    time.sleep(0.1)  # Kurze Pause für stabile Steuerung
+
+sc.drive(new_speed=0, new_angle=90)
+sc.stop()
+>>>>>>> 3c70140 (update v2)

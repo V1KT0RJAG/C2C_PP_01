@@ -101,6 +101,7 @@ class Fahrmodus:
         self.car.save_log()
         print("Erkundungstour beendet.")
 
+<<<<<<< HEAD
   
     def fahrmodus_5(self, duration=20, distance_min=25):
         #Linie mit Hindernisvermeidung.
@@ -147,6 +148,39 @@ class Fahrmodus:
             if self.car.digital[0] == 1:
                 self.car.drive(new_speed=40, new_angle=55)
 
+=======
+    def fahrmodus_5(self):
+        print("Fahrmodus 5: Linienverfolgung gestartet")
+        self.drive(speed=30, steering_angle=90)  # Starte mit mittlerer Geschwindigkeit und gerader Lenkung
+ 
+        start_time = time.time()  # Startzeit merken
+ 
+        while True:
+            # Prüfe, ob 20 Sekunden vergangen sind
+            if time.time() - start_time > 40:
+                print("Zeitlimit erreicht – Fahrzeug gestoppt.")
+                self.stop()
+                break
+ 
+            ir = self.infrared.read_digital()  # Lese digitale Infrarotwerte
+            self.log_status()  # Protokolliere aktuellen Zustand
+ 
+            if sum(ir) == 0:
+                # Wenn alle Sensoren 0 melden, ist die Linie verloren
+                print("Linie verloren – Fahrzeug gestoppt.")
+                self.stop()
+                break
+            if ir == [0, 0, 1, 0, 0]:
+                self.drive(steering_angle=90)  # Geradeaus
+            elif ir[0] == 1 or ir[1] == 1:
+                self.drive(steering_angle=55)  # Nach links lenken
+            elif ir[3] == 1 or ir[4] == 1:
+                self.drive(steering_angle=125) # Nach rechts lenken   
+            else:
+                self.drive(steering_angle=90)  # Standard: geradeaus
+ 
+            time.sleep(0.1)  # Kurze Pause für stabile Steuerung
+>>>>>>> 3c70140 (update v2)
 
     #[1,1,0,0,0]
             elif self.car.digital[0] == 1 and self.car.digital[1] == 1:
