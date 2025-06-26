@@ -2,6 +2,7 @@ config.json
 basecar_Vic copy.py
 basecar_Vic.py
 code_Victor_explained.py
+*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
