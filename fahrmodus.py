@@ -101,31 +101,35 @@ class Fahrmodus:
         self.car.save_log()
         print("Erkundungstour beendet.")
 
-"""     def fahrmodus_4(self):
-        try:
-            while True:
-                akt_dis = self.car.get_distance()
-                self.car.drive(new_speed=40, new_angle=90)
-                time.sleep(0.2)
-                #logging.info(f"Auto gestartet:" {speed}"Speed und mit einem Lenkwinkel von" {angle})
-                #self.car.drive(angle=random.choice([35,90, 60, 110, 135]))
-    
-                if not isinstance(akt_dis, (int, float)) or akt_dis <= 0:
-                    print("Ungültige Messung:", akt_dis)
-                    time.sleep(0.2)
-                    continue
-    
-                if akt_dis < 15:
-                    self.car.drive(new_speed=0)
-                    print("Hindernis erkannt (Abstand:", akt_dis, "). Auto dreht sich.")
-                    #logging.info(f"Hindernis erkannt Abstand:" {akt_dis}". Auto wird gestoppt.")
-                    self.car.drive(new_speed=-30, new_angle=35)
-                    time.sleep(1)
-                    self.car.drive(new_speed=0, new_angle =90)
-                    time.sleep(0.5)
-                    continue
-        
-        except KeyboardInterrupt:
-            self.car.drive(new_speed=0, new_angle=90) """
-
+    def fahrmodus_5(self):
+        print("Fahrmodus 5: Linienverfolgung gestartet")
+        self.drive(speed=30, steering_angle=90)  # Starte mit mittlerer Geschwindigkeit und gerader Lenkung
+ 
+        start_time = time.time()  # Startzeit merken
+ 
+        while True:
+            # Prüfe, ob 20 Sekunden vergangen sind
+            if time.time() - start_time > 40:
+                print("Zeitlimit erreicht – Fahrzeug gestoppt.")
+                self.stop()
+                break
+ 
+            ir = self.infrared.read_digital()  # Lese digitale Infrarotwerte
+            self.log_status()  # Protokolliere aktuellen Zustand
+ 
+            if sum(ir) == 0:
+                # Wenn alle Sensoren 0 melden, ist die Linie verloren
+                print("Linie verloren – Fahrzeug gestoppt.")
+                self.stop()
+                break
+            if ir == [0, 0, 1, 0, 0]:
+                self.drive(steering_angle=90)  # Geradeaus
+            elif ir[0] == 1 or ir[1] == 1:
+                self.drive(steering_angle=55)  # Nach links lenken
+            elif ir[3] == 1 or ir[4] == 1:
+                self.drive(steering_angle=125) # Nach rechts lenken   
+            else:
+                self.drive(steering_angle=90)  # Standard: geradeaus
+ 
+            time.sleep(0.1)  # Kurze Pause für stabile Steuerung
 
