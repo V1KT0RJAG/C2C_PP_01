@@ -164,13 +164,13 @@ ir.cali_references()
 ir.set_references
 time.sleep(5)
 
-#fahrmodus 5
-#linie vefolgen
-print("Fahrmodus 5:")
-start_time = time.time()
-sc.drive(new_speed=40, new_angle=90)
+# #fahrmodus 5
+# #linie vefolgen
+# print("Fahrmodus 5:")
+# start_time = time.time()
+# sc.drive(new_speed=40, new_angle=90)
 
-drive_duration = 0
+# drive_duration = 0
 
 while drive_duration<20:
     #[1,0,0,0,0]
