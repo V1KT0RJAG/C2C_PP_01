@@ -109,6 +109,7 @@ class BaseCar:
             self.front._turning_offset = turning_offset
             self.back.forward_A = forward_A
             self.back.forward_B = forward_B
+            f.close()
         finally:
             pass
         
@@ -142,7 +143,6 @@ if __name__ == "__main__":
     bw = BackWheels()
     car = BaseCar(fw, bw)
 
-    car.log()
 # car.log()
 """ 
 fw = FrontWheels()
