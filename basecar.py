@@ -1,17 +1,20 @@
 from basisklassen import FrontWheels, BackWheels
 import time
 import json
-
+from datetime import datetime
+from pandas import DataFrame
 
 
 class BaseCar:
 
-    def __init__(self, front, back):
+    def __init__(self, front, back, values_to_log=[]):
         self.__steering_angle = 90
         self.__speed = 0
         self.__direction = 0
         self.front = front
         self.back = back
+        self.values_to_log = ["UTCtime","timestamp", "speed", "direction", "steering_angle"] + values_to_log
+        self.data = {}
         self.read_config()
         print("BaseCar erzeugt")
         
@@ -84,6 +87,7 @@ class BaseCar:
         self.back.left_wheel.speed = self.speed
         self.back.right_wheel.speed = self.speed
 
+
     def read_config(self):
         try:
             with open("config.json", "r") as f:
@@ -105,9 +109,41 @@ class BaseCar:
             self.front._turning_offset = turning_offset
             self.back.forward_A = forward_A
             self.back.forward_B = forward_B
+            f.close()
         finally:
             pass
+        
+    def log(self):
+        self.UTCtime = time.time()
+        self.timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        for name in self.values_to_log:
+            
+            attr = getattr(self, name, None)
+            #überprüft ob attr eine Funktion ist
+            if callable(attr):
+                attr = attr()
+            print(f"{name}: {type(attr)}, {attr}")
+            
+            if name in self.data:
+                self.data[name].append(attr)
+                
+            else:
+                self.data[name] = [attr]
+                
+        print("LOG-DICT: ", self.data)
+    
+    #save the log
+    def save_log(self):
+        log_df = DataFrame(self.data)
+        log_df.to_csv("sonic_log.csv", index = False)    
 
+
+if __name__ == "__main__":
+    fw = FrontWheels()
+    bw = BackWheels()
+    car = BaseCar(fw, bw)
+
+# car.log()
 """ 
 fw = FrontWheels()
 bw = BackWheels()
@@ -125,5 +161,7 @@ car.speed
 car.speed = 80
 car.speed
  """
+# car = BaseCar(values_to_log = ["speed", "steering_angle", "direction"])
+
 #Auto wird gestopptAdd commentMore actions
 #car.stop()# from basisklassen import Ultrasonic, BackWheels, FrontWheels
