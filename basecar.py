@@ -62,7 +62,7 @@ class BaseCar:
             self.steering_angle = new_angle
 
         print(f"Geschwindigkeit von {self.speed} und Lenkwinkel von {self.steering_angle} wurde übermittelt")
-        time.sleep(1)
+        #time.sleep(1)
 
         if self.speed >= 0:
             self.back.forward()
