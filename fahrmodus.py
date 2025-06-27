@@ -180,65 +180,68 @@ class Fahrmodus:
         self.car.get_ir()
 
         #To-Do: in App integrieren
-        self.car.infra.cali_references()
-        self.car.increase_references_by_20()
-        self.car.infra.set_references
-        time.sleep(5)
+        # self.car.infra.cali_references()
+        # self.car.increase_references_by_20()
+        # self.car.infra.set_references
+        # time.sleep(5)
 
         start_time = time.time()
-        self.car.drive(new_speed=45, new_angle=90)
+        self.car.drive(new_speed=30, new_angle=90)
 
         while time.time() - start_time < 40:
         
             self.car.get_ir()
+            counter = 0
+
+            # if sum(self.car.digital) == 0:
+
+            #     print("Linie verloren – Rückwärtsfahren und Neuversuch.")
+            #     self.car.drive(new_speed=-20, new_angle=90)  # Rückwärts geradeaus
+            #     time.sleep(0.5)  # 1 Sekunde rückwärts fahren
+            #     self.car.stop()
+            #     self.car.get_ir()
+            #     time.sleep(0.5)
+            #     # Neuer Versuch: IR-Sensor erneut auslesen
+            #     if sum(self.car.digital) == 0:
+            #         print("Linie weiterhin nicht gefunden – Fahrzeug gestoppt.")
+            #         break
+            #     else:
+            #         print("Linie wiedergefunden – Fortsetzung der Fahrt.")
+            #         self.car.drive(new_speed=40) # <<< WICHTIG: Wieder losfahren
 
             if sum(self.car.digital) == 0:
-                print("Linie verloren – Rückwärtsfahren und Neuversuch.")
-                self.car.drive(new_speed=-40, new_angle=90)  # Rückwärts geradeaus
-                time.sleep(1)  # 1 Sekunde rückwärts fahren
-                self.car.stop()
-                self.car.get_ir()
-                time.sleep(0.5)
-                # Neuer Versuch: IR-Sensor erneut auslesen
-                if sum(self.car.digital) == 0:
-                    print("Linie weiterhin nicht gefunden – Fahrzeug gestoppt.")
+                counter += 1
+                if counter > 300:
+                    # Wenn alle Sensoren 0 melden, ist die Linie verloren
+                    print("Linie verloren – Fahrzeug gestoppt.")
+                    self.car.stop()
                     break
-                else:
-                    print("Linie wiedergefunden – Fortsetzung der Fahrt.")
-                    self.car.drive(new_speed=40) # <<< WICHTIG: Wieder losfahren
-
-            # if sum(sc.digital) == 0:
-            #     counter += 1
-                # if counter > 300:
-                #     # Wenn alle Sensoren 0 melden, ist die Linie verloren
-                #     print("Linie verloren – Fahrzeug gestoppt.")
-                #     sc.stop()
-                #     break
-                # continue
-                # #time.sleep(1.5)
+                continue
+                #time.sleep(1.5)
+  
             if self.car.digital == [1,0,0,0,0]:
-                self.car.drive(new_angle=45)
+                self.car.drive(new_speed=40, new_angle=45)
                 time.sleep(0.1)
             elif self.car.digital == [1,1,0,0,0]:
-                self.car.drive(new_angle=60)
+                self.car.drive(new_speed=40, new_angle=56)
                 time.sleep(0.1)
             elif self.car.digital == [0,1,0,0,0]:
-                self.car.drive(new_angle=75)
+                self.car.drive(new_speed=40, new_angle=67)
                 time.sleep(0.1)
             elif self.car.digital == [0,1,1,0,0]:
-                self.car.drive(new_angle=80)
+                self.car.drive(new_speed=40, new_angle=78)
             elif self.car.digital == [0,0,1,0,0]:
-                self.car.drive(new_angle=90)
+                self.car.drive(new_speed=40, new_angle=90)
             elif self.car.digital == [0,0,1,1,0]:
-                self.car.drive(new_angle=95)
+                self.car.drive(new_speed=40, new_angle=101)
             elif self.car.digital == [0,0,0,1,0]:
-                self.car.drive(new_angle=120)
+                self.car.drive(new_speed=40, new_angle=112)
                 time.sleep(0.1)
             elif self.car.digital == [0,0,0,1,1]:
-                self.car.drive(new_angle=125)
+                self.car.drive(new_speed=40, new_angle=123)
                 time.sleep(0.1)
             elif self.car.digital == [0,0,0,0,1]:
-                self.car.drive(new_angle=135)
+                self.car.drive(new_speed=40, new_angle=135)
                 time.sleep(0.1)
     
         self.car.stop()
