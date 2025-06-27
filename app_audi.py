@@ -1,5 +1,6 @@
-from basisklassen import FrontWheels, BackWheels, Ultrasonic
+from basisklassen import FrontWheels, BackWheels, Ultrasonic, Infrared
 from soniccar import SonicCar
+from sensorcar import SensorCar
 import dash
 from dash import dcc, html
 import dash_bootstrap_components as dbc
@@ -19,6 +20,8 @@ fw = FrontWheels()
 bw = BackWheels() 
 usm = Ultrasonic()
 sc = SonicCar(fw, bw, ultra=usm)
+ir = Infrared()
+sensor_c = SensorCar(fw, bw, ultra=usm, infra=ir)
 fm = Fahrmodus(sc)
 
 # Initialdaten laden
