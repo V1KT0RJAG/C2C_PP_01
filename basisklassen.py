@@ -216,7 +216,7 @@ class Infrared(object):
     def test(self) -> None:
         """Tests the connection to the infrared module. Prints 10 measurements in 5 seconds.
         """
-        for i in range(10):
+        for i in range(500):
             data = self.read_analog()
             print('{} : {}'.format(i, data))
             time.sleep(.5)
