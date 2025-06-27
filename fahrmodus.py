@@ -101,54 +101,6 @@ class Fahrmodus:
         self.car.save_log()
         print("Erkundungstour beendet.")
 
-<<<<<<< HEAD
-  
-    def fahrmodus_5(self, duration=20, distance_min=25):
-        #Linie mit Hindernisvermeidung.
-
-        print("Fahrmodus 5: Linie")
-        start_time = time.time()
-        
-        self.car.drive(new_speed=30, new_angle=90)
-        self.car.counter = 0
-        #Logfile 1
-        #self.car.log()
-
-        while True:
-        # Prüfe, ob 20 Sekunden vergangen sind
-            if time.time() - start_time > duration:
-                print("Zeitlimit erreicht – Fahrzeug gestoppt.")
-                self.car.stop()
-                break
-            self.car.get_ir()
-            #distance = self.car.get_distance()
-            #self.car.log()
-            #if distance is not 0 and distance < distance_min:
-             #   print("Hindernis erkannt – Ausweichmanöver")
-              #  self.car.stop()
-               # self.car.drive(new_speed=-30, new_angle=random.choice([45, 135]))
-                #time.sleep(3)
-                #Logfile 2
-
-                #self.car.drive(new_speed=40, new_angle=90)
-
-            if sum(self.car.digital) == 0:
-                self.car.counter += 1
-                time.sleep(0.1)
-        
-                if self.car.counter > 50:
-                # Wenn alle Sensoren 0 melden, ist die Linie verloren
-                    print("Linie verloren – Fahrzeug gestoppt.")
-                    self.car.stop()
-                    break
-                continue
-        #time.sleep(1.5)
-
-     #[1,0,0,0,0]
-            if self.car.digital[0] == 1:
-                self.car.drive(new_speed=40, new_angle=55)
-
-=======
     def fahrmodus_5(self):
         print("Fahrmodus 5: Linienverfolgung gestartet")
         self.drive(speed=30, steering_angle=90)  # Starte mit mittlerer Geschwindigkeit und gerader Lenkung
@@ -180,47 +132,4 @@ class Fahrmodus:
                 self.drive(steering_angle=90)  # Standard: geradeaus
  
             time.sleep(0.1)  # Kurze Pause für stabile Steuerung
->>>>>>> 3c70140 (update v2)
 
-    #[1,1,0,0,0]
-            elif self.car.digital[0] == 1 and self.car.digital[1] == 1:
-                self.car.drive(new_speed=40, new_angle=65)
-
-
-    #[0,1,0,0,0]
-            elif self.car.digital[1] == 1:
-                self.car.drive(new_speed=40, new_angle=75)
-
-
-    #[0,1,1,0,0]
-            elif self.car.digital[1] == 1 and self.car.digital[2] ==1:
-                self.car.drive(new_speed=40, new_angle=80)
-
-
-    #[0,0,1,0,0] 
-            elif self.car.digital[2] == 1:
-                self.car.drive(new_speed=40, new_angle=90)
-
-
-    #[0,0,1,1,0]
-            elif self.car.digital[2] == 1 and self.car.digital[3] ==1:
-                self.car.drive(new_speed=40, new_angle=100)
-
-
-    #[0,0,0,1,0]
-            elif self.car.digital[3] == 1:
-                self.car.drive(new_speed=40, new_angle=110)
-
-
-    #[0,0,0,1,1]
-            elif self.car.digital[3] == 1 and self.car.digital[4] == 1:
-                self.car.drive(new_speed=40, new_angle=120)
-
-
-    #[0,0,0,0,1]
-            elif self.car.digital[4] == 1:
-                self.car.drive(new_speed=40, new_angle=130)
-
-    
-    #time.sleep(0.6)  # Kurze Pause für stabile Steuerung """
-        self.car.stop()
