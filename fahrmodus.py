@@ -68,31 +68,92 @@ class Fahrmodus:
         self.car.stop()
         print("Erkundungstour beendet.")
 
-"""     def fahrmodus_4(self):
-        try:
-            while True:
-                akt_dis = self.car.get_distance()
-                self.car.drive(new_speed=40, new_angle=90)
-                time.sleep(0.2)
-                #logging.info(f"Auto gestartet:" {speed}"Speed und mit einem Lenkwinkel von" {angle})
-                #self.car.drive(angle=random.choice([35,90, 60, 110, 135]))
-    
-                if not isinstance(akt_dis, (int, float)) or akt_dis <= 0:
-                    print("Ungültige Messung:", akt_dis)
-                    time.sleep(0.2)
-                    continue
-    
-                if akt_dis < 15:
-                    self.car.drive(new_speed=0)
-                    print("Hindernis erkannt (Abstand:", akt_dis, "). Auto dreht sich.")
-                    #logging.info(f"Hindernis erkannt Abstand:" {akt_dis}". Auto wird gestoppt.")
-                    self.car.drive(new_speed=-30, new_angle=35)
-                    time.sleep(1)
-                    self.car.drive(new_speed=0, new_angle =90)
-                    time.sleep(0.5)
-                    continue
+  
+    def fahrmodus_5(self, duration=20, distance_min=25):
+        #Linie mit Hindernisvermeidung.
+
+        print("Fahrmodus 5: Linie")
+        start_time = time.time()
         
-        except KeyboardInterrupt:
-            self.car.drive(new_speed=0, new_angle=90) """
+        self.car.drive(new_speed=30, new_angle=90)
+        self.car.counter = 0
+        #Logfile 1
+        #self.car.log()
+
+        while True:
+        # Prüfe, ob 20 Sekunden vergangen sind
+            if time.time() - start_time > duration:
+                print("Zeitlimit erreicht – Fahrzeug gestoppt.")
+                self.car.stop()
+                break
+            self.car.get_ir()
+            #distance = self.car.get_distance()
+            #self.car.log()
+            #if distance is not 0 and distance < distance_min:
+             #   print("Hindernis erkannt – Ausweichmanöver")
+              #  self.car.stop()
+               # self.car.drive(new_speed=-30, new_angle=random.choice([45, 135]))
+                #time.sleep(3)
+                #Logfile 2
+
+                #self.car.drive(new_speed=40, new_angle=90)
+
+            if sum(self.car.digital) == 0:
+                self.car.counter += 1
+                time.sleep(0.1)
+        
+                if self.car.counter > 50:
+                # Wenn alle Sensoren 0 melden, ist die Linie verloren
+                    print("Linie verloren – Fahrzeug gestoppt.")
+                    self.car.stop()
+                    break
+                continue
+        #time.sleep(1.5)
+
+     #[1,0,0,0,0]
+            if self.car.digital[0] == 1:
+                self.car.drive(new_speed=40, new_angle=55)
 
 
+    #[1,1,0,0,0]
+            elif self.car.digital[0] == 1 and self.car.digital[1] == 1:
+                self.car.drive(new_speed=40, new_angle=65)
+
+
+    #[0,1,0,0,0]
+            elif self.car.digital[1] == 1:
+                self.car.drive(new_speed=40, new_angle=75)
+
+
+    #[0,1,1,0,0]
+            elif self.car.digital[1] == 1 and self.car.digital[2] ==1:
+                self.car.drive(new_speed=40, new_angle=80)
+
+
+    #[0,0,1,0,0] 
+            elif self.car.digital[2] == 1:
+                self.car.drive(new_speed=40, new_angle=90)
+
+
+    #[0,0,1,1,0]
+            elif self.car.digital[2] == 1 and self.car.digital[3] ==1:
+                self.car.drive(new_speed=40, new_angle=100)
+
+
+    #[0,0,0,1,0]
+            elif self.car.digital[3] == 1:
+                self.car.drive(new_speed=40, new_angle=110)
+
+
+    #[0,0,0,1,1]
+            elif self.car.digital[3] == 1 and self.car.digital[4] == 1:
+                self.car.drive(new_speed=40, new_angle=120)
+
+
+    #[0,0,0,0,1]
+            elif self.car.digital[4] == 1:
+                self.car.drive(new_speed=40, new_angle=130)
+
+    
+    #time.sleep(0.6)  # Kurze Pause für stabile Steuerung """
+        self.car.stop()

@@ -1,6 +1,7 @@
 from basecar import BaseCar
 from basisklassen import Ultrasonic, FrontWheels, BackWheels
 import time
+from fahrmodus import Fahrmodus
 
 #SonicCar Klasse
 class SonicCar(BaseCar):
@@ -48,6 +49,10 @@ if __name__ == "__main__":
     fw = FrontWheels()
     bw = BackWheels() 
     usm = Ultrasonic()
+    
 
     sc = SonicCar(fw, bw, usm)
+    fm = Fahrmodus(sc)
+
     sc.get_distance()
+    fm.fahrmodus_4()

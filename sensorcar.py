@@ -1,5 +1,6 @@
 from basecar import BaseCar
 from basisklassen import Ultrasonic, FrontWheels, BackWheels, Infrared
+from fahrmodus import Fahrmodus
 import time
 import json
 
@@ -66,18 +67,14 @@ usm = Ultrasonic()
 ir = Infrared()
 sc = SensorCar(fw, bw, ultra=usm, infra=ir)
 
-# #ir.test()
+
+fm = Fahrmodus(sc)
+
+#sc.get_distance()
 sc.get_ir()
+fm.fahrmodus_5()
 
-# analog = ir.read_analog()
-# digital = ir.read_digital()
-# print(f"Analog: {analog} | Digital: {digital}")
-# ir.cali_references()
-# ir.set_references
-# time.sleep(5)
-
-# #fahrmodus 5
-# #linie vefolgen
+""""
 print("Fahrmodus 5:")
 start_time = time.time()
 sc.drive(new_speed=25, new_angle=90)
@@ -104,17 +101,6 @@ while True:
         continue
         #time.sleep(1.5)
 
-
-    """if sc.digital == [0, 0, 1, 0, 0]:
-        sc.drive(new_angle=90)  # Geradeaus
-    elif sc.digital [0] == 1 or sc.digital [1] == 1:
-        sc.drive(new_angle=55)  # Nach links lenken
-    elif sc.digital [3] == 1 or sc.digital [4] == 1:
-        sc.drive(new_angle=125) # Nach rechts lenken   
-    else:
-        sc.drive(new_angle=90)  # Standard: geradeaus
-    time.sleep(0.1)  # Kurze Pause für stabile Steuerung"""
-     #[1,0,0,0,0]
     if sc.digital[0] == 1:
         sc.drive(new_speed=40, new_angle=55)
 
@@ -159,7 +145,7 @@ while True:
         sc.drive(new_speed=40, new_angle=130)
 
     
-    #time.sleep(0.6)  # Kurze Pause für stabile Steuerung """
+    #time.sleep(0.6)  # Kurze Pause für stabile Steuerung 
 
 sc.drive(new_speed=0, new_angle=90)
-sc.stop()
+sc.stop()"""
