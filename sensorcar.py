@@ -80,7 +80,7 @@ sc.get_ir()
 # #linie vefolgen
 print("Fahrmodus 5:")
 start_time = time.time()
-sc.drive(new_speed=20, new_angle=90)
+sc.drive(new_speed=40, new_angle=90)
 counter = 0
 
 while True:
@@ -94,7 +94,7 @@ while True:
     if sum(sc.digital) == 0:
         counter += 1
         
-        if counter > 100:
+        if counter > 200:
             # Wenn alle Sensoren 0 melden, ist die Linie verloren
             print("Linie verloren – Fahrzeug gestoppt.")
             sc.stop()
@@ -102,16 +102,37 @@ while True:
         continue
         #time.sleep(1.5)
 
+    if sc.digital == [1,0,0,0,0]:
+        sc.drive(new_angle=45)
+    elif sc.digital == [1,1,0,0,0]:
+        sc.drive(new_angle=60)
+    elif sc.digital == [0,1,0,0,0]:
+        sc.drive(new_angle=75)
+    elif sc.digital == [0,1,1,0,0]:
+        sc.drive(new_angle=80)
+    elif sc.digital == [0,0,1,0,0]:
+        sc.drive(new_angle=90)
+    elif sc.digital == [0,0,1,1,0]:
+        sc.drive(new_angle=95)
+    elif sc.digital == [0,0,0,1,0]:
+        sc.drive(new_angle=120)
+    elif sc.digital == [0,0,0,1,1]:
+        sc.drive(new_angle=125)
+    elif sc.digital == [0,0,0,0,1]:
+        sc.drive(new_angle=135)
 
-    if sc.digital == [0, 0, 1, 0, 0]:
-        sc.drive(new_angle=90)  # Geradeaus
-    elif sc.digital [0] == 1 or sc.digital [1] == 1:
-        sc.drive(new_angle=55)  # Nach links lenken
-    elif sc.digital [3] == 1 or sc.digital [4] == 1:
-        sc.drive(new_angle=125) # Nach rechts lenken   
-    else:
-        sc.drive(new_angle=90)  # Standard: geradeaus
-    time.sleep(0.1)  # Kurze Pause für stabile Steuerung
+
+
+
+    # if sc.digital == [0, 0, 1, 0, 0]:
+    #     sc.drive(new_angle=90)  # Geradeaus
+    # elif sc.digital [0] == 1 or sc.digital [1] == 1:
+    #     sc.drive(new_angle=55)  # Nach links lenken
+    # elif sc.digital [3] == 1 or sc.digital [4] == 1:
+    #     sc.drive(new_angle=125) # Nach rechts lenken   
+    # else:
+    #     sc.drive(new_angle=90)  # Standard: geradeaus
+    # time.sleep(0.1)  # Kurze Pause für stabile Steuerung
 """     #[1,0,0,0,0]
     elif sc.digital[0] == 1:
         sc.drive(new_speed=20, new_angle=45)
