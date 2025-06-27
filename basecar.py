@@ -86,6 +86,7 @@ class BaseCar:
         self.back.right_wheel.speed = self.speed
         self.back.left_wheel.speed = self.speed
         self.back.right_wheel.speed = self.speed
+        self.steering_angle=90
 
 
     def read_config(self):
