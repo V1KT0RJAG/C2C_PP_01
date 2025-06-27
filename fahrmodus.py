@@ -248,10 +248,10 @@ class Fahrmodus:
         self.car.get_ir()
 
         #To-Do: in App integrieren
-        self.car.infra.cali_references()
-        self.car.increase_references_by_20()
-        self.car.infra.set_references
-        time.sleep(5)
+        # self.car.infra.cali_references()
+        # self.car.increase_references_by_20()
+        # self.car.infra.set_references
+        # time.sleep(5)
 
         start_time = time.time()
         self.car.drive(new_speed=45, new_angle=90)
@@ -284,7 +284,7 @@ class Fahrmodus:
                 #     break
                 # continue
                 # #time.sleep(1.5)
-            if self.car.get_distance()< 25:
+            if self.car.ultra.distance()< 25:
                 self.car.log()
                 self.car.stop()
                 self.car.save_log()
@@ -295,22 +295,22 @@ class Fahrmodus:
                 self.car.drive(new_speed=40, new_angle=45)
                 time.sleep(0.1)
             elif self.car.digital == [1,1,0,0,0]:
-                self.car.drive(new_speed=40, new_angle=60)
+                self.car.drive(new_speed=40, new_angle=56)
                 time.sleep(0.1)
             elif self.car.digital == [0,1,0,0,0]:
-                self.car.drive(new_speed=40, new_angle=75)
+                self.car.drive(new_speed=40, new_angle=67)
                 time.sleep(0.1)
             elif self.car.digital == [0,1,1,0,0]:
-                self.car.drive(new_speed=40, new_angle=80)
+                self.car.drive(new_speed=40, new_angle=78)
             elif self.car.digital == [0,0,1,0,0]:
                 self.car.drive(new_speed=40, new_angle=90)
             elif self.car.digital == [0,0,1,1,0]:
-                self.car.drive(new_speed=40, new_angle=105)
+                self.car.drive(new_speed=40, new_angle=101)
             elif self.car.digital == [0,0,0,1,0]:
-                self.car.drive(new_speed=40, new_angle=120)
+                self.car.drive(new_speed=40, new_angle=112)
                 time.sleep(0.1)
             elif self.car.digital == [0,0,0,1,1]:
-                self.car.drive(new_speed=40, new_angle=125)
+                self.car.drive(new_speed=40, new_angle=123)
                 time.sleep(0.1)
             elif self.car.digital == [0,0,0,0,1]:
                 self.car.drive(new_speed=40, new_angle=135)
