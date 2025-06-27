@@ -84,8 +84,6 @@ class BaseCar:
         self.speed = 0
         self.back.left_wheel.speed = self.speed
         self.back.right_wheel.speed = self.speed
-        self.back.left_wheel.speed = self.speed
-        self.back.right_wheel.speed = self.speed
         self.steering_angle=90
 
 
