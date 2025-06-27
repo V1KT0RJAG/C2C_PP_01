@@ -96,7 +96,7 @@ while True:
         counter += 1
         time.sleep(0.1)
         
-        if counter > 100:
+        if counter > 50:
             # Wenn alle Sensoren 0 melden, ist die Linie verloren
             print("Linie verloren – Fahrzeug gestoppt.")
             sc.stop()
