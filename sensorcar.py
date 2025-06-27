@@ -96,7 +96,7 @@ if __name__ == "__main__":
     # #linie vefolgen
     print("Fahrmodus 5:")
     start_time = time.time()
-    sc.drive(new_speed=45, new_angle=90)
+    sc.drive(new_speed=25, new_angle=90)
     counter = 0
 
     while time.time() - start_time < 40:
@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
         if sum(sc.digital) == 0:
             print("Linie verloren – Rückwärtsfahren und Neuversuch.")
-            sc.drive(new_speed=-40, new_angle=90)  # Rückwärts geradeaus
+            sc.drive(new_speed=-20, new_angle=90)  # Rückwärts geradeaus
             time.sleep(1)  # 1 Sekunde rückwärts fahren
             sc.stop()
             sc.get_ir()
