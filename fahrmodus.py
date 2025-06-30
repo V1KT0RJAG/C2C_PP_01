@@ -338,25 +338,25 @@ class Fahrmodus:
         last_error = 0
         integral = 0
 
-        while time.time() - start_time <= 15:
+        while time.time() - start_time <= 25:
             self.car.get_ir()
             
             if sum(self.car.digital) == 0:
                 print("Linie verloren – Rückwärtsfahren und Neuversuch.")
-                self.car.drive(new_speed=-30, new_angle=90)  # Rückwärts geradeaus
+                self.car.drive(new_speed=-20, new_angle=90)  # Rückwärts geradeaus
                 time.sleep(1)  # 1 Sekunde rückwärts fahren
                 self.car.stop()
                 time.sleep(0.5)
 
                 # Neuer Versuch: IR-Sensor erneut auslesen
-                self.car.get_ir()
-                if sum(self.car.digital) == 0:
+            self.car.get_ir()
+            if sum(self.car.digital) == 0:
                     print("Linie weiterhin nicht gefunden – Fahrzeug gestoppt.")
                     break
-                else:
-                    print("Linie wiedergefunden – Fortsetzung der Fahrt.")
-                    self.car.drive(new_speed=30, new_angle=90) # <<< WICHTIG: Wieder losfahren
-                    continue
+            else:
+                print("Linie wiedergefunden – Fortsetzung der Fahrt.")
+                self.car.drive(new_speed=30, new_angle=90) # <<< WICHTIG: Wieder losfahren
+               
             # Berechne Fehler (Abweichung von der Mitte)
             error = sum(w * s for w, s in zip(weights, self.car.digital))
             integral += error
@@ -367,13 +367,13 @@ class Fahrmodus:
             new_angle = 90 + correction
             new_angle = max(45, min(135, new_angle))  # Begrenzung
 
-            sc.drive(new_angle=new_angle)
+            self.car.drive(new_angle=new_angle)
             last_error = error
             time.sleep(0.05)
             
         self.car.stop()
 
-    def fahrmodus_8(self):
+    #def fahrmodus_8(self):
         #print("Fahrmodus 8: Erweiterte Linienverfolgung mit Hindernisserkennung")
         #self.car.get_ir()
-        pass
+       # pass
