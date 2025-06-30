@@ -3,7 +3,7 @@ from basecar import BaseCar
 from fahrmodus import Fahrmodus
 from soniccar import SonicCar
 import time
-import plotly.express as px
+#import plotly.express as px
 
 
 import pandas as pd 
@@ -22,7 +22,9 @@ modus = Fahrmodus(car)
 modus.fahrmodus_2() """
 
 sc = SonicCar(fw, bw, ultra=usm)
-modus = Fahrmodus(sc)
+modus = Fahrmodus(sensor_c)
+
+modus.fahrmodus_7() 
 #modus.fahrmodus_3(stop_distance=20)
 modus.fahrmodus_4(duration=45)
 

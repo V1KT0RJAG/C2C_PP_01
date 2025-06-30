@@ -32,7 +32,7 @@ class SensorCar(BaseCar):
 
         print("[Fehler] Keine gültige Distanzmessung möglich.") 
         #self.stop()  
-        return 0
+        return 30
 
     def get_ir(self):
         #Logik aufbauen
