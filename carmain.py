@@ -26,7 +26,7 @@ modus.fahrmodus_2() """
 
 sc = SonicCar(fw, bw, ultra=usm)
 modus = Fahrmodus(sensor_c)
-modus.fahrmodus_6() 
+modus.fahrmodus_8() 
 #modus.fahrmodus_3(stop_distance=20)
 # modus.fahrmodus_4(duration=45)
 
