@@ -337,40 +337,113 @@ class Fahrmodus:
 
         last_error = 0
         integral = 0
-
-        while time.time() - start_time <= 25:
+        self.car.drive(new_speed=45, new_angle=90)
+        last_steering_angle = 90
+        stop_driving = False
+        while time.time() - start_time <= 1800:
+            distance = self.car.get_distance()
+            print("Aktuelle Distanz: ", distance)
+            if distance < 25 and distance>=0:
+                print(distance)
+                self.car.log()
+                self.car.stop()
+                print("STOOOOP")
+                self.car.save_log()
+                print("Hindernis erkannt – Fahrzeug gestoppt.")
+                continue
+                
             self.car.get_ir()
             
-            if sum(self.car.digital) == 0:
-                print("Linie verloren – Rückwärtsfahren und Neuversuch.")
-                self.car.drive(new_speed=-20, new_angle=90)  # Rückwärts geradeaus
-                time.sleep(1)  # 1 Sekunde rückwärts fahren
-                self.car.stop()
-                time.sleep(0.5)
-
-                # Neuer Versuch: IR-Sensor erneut auslesen
-            self.car.get_ir()
-            if sum(self.car.digital) == 0:
-                    print("Linie weiterhin nicht gefunden – Fahrzeug gestoppt.")
+            no_line_detecetd = sum(self.car.digital) == 0
+            
+                
+            if no_line_detecetd:
+                time_line_is_lost = time.time()
+                
+                while no_line_detecetd:
+                    print("Linie nicht erkannt")
+                    
+                    # Zurück mit altem Lenkwinkel
+                    # self.car.drive(new_speed=-30, new_angle=last_steering_angle)
+                    # self.car.get_ir()
+                
+                    # time.sleep(0.5)
+                    
+                    # Zurück mit gegenlenken
+                    # anti_angle = 180 - last_steering_angle
+                    anti_angle = 45 if last_steering_angle > 90 else 135
+                    self.car.drive(new_angle=anti_angle, new_speed=-30)
+                    # self.car.get_ir()
+                    
+                    
+                    time.sleep(0.25)
+                     # Zurück mit altem Lenkwinkel
+                    self.car.drive(new_speed=-30, new_angle=last_steering_angle)
+                    self.car.get_ir()
+                
+                    time.sleep(0.4)
+                    line_detecetd = sum(self.car.digital) > 0
+                    
+                    if line_detecetd:
+                        self.car.drive(new_angle=last_steering_angle, new_speed=30)
+                        print("Linie wiedergefunden!")
+                        break
+                    print("Anti: ", anti_angle, last_steering_angle)
+                    
+                    waiting_time_over = time.time() - time_line_is_lost
+                    print("Wartezeit: ", waiting_time_over)
+                    if waiting_time_over > 2.5:
+                        self.car.stop()
+                        stop_driving = True
+                        break
+                    
+                if stop_driving:
+                    self.car.stop()
                     break
-            else:
-                print("Linie wiedergefunden – Fortsetzung der Fahrt.")
-                self.car.drive(new_speed=30, new_angle=90) # <<< WICHTIG: Wieder losfahren
+                        
+                    
+                    
+                
+            # if sum(self.car.digital) == 0:
+            #     print("Linie verloren – Rückwärtsfahren und Neuversuch.")
+            #     self.car.drive(new_speed=-20, new_angle=90)  # Rückwärts geradeaus
+            #     time.sleep(1)  # 1 Sekunde rückwärts fahren
+            #     self.car.stop()
+            #     time.sleep(0.5)
+
+            #     # Neuer Versuch: IR-Sensor erneut auslesen
+            # self.car.get_ir()
+            # if sum(self.car.digital) == 0:
+            #         print("Linie weiterhin nicht gefunden – Fahrzeug gestoppt.")
+            #         break
+            # else:
+            #     print("Linie wiedergefunden – Fortsetzung der Fahrt.")
+            #     self.car.drive(new_speed=30, new_angle=90) # <<< WICHTIG: Wieder losfahren
                
             # Berechne Fehler (Abweichung von der Mitte)
-            error = sum(w * s for w, s in zip(weights, self.car.digital))
-            integral += error
-            derivative = error - last_error
+            else: 
+                print("Linie erkannt")
+                error = sum(w * s for w, s in zip(weights, self.car.digital))
+                integral += error
+                derivative = error - last_error
 
-            # PID-Regelung
-            correction = Kp * error + Ki * integral + Kd * derivative
-            new_angle = 90 + correction
-            new_angle = max(45, min(135, new_angle))  # Begrenzung
+                # PID-Regelung
+                correction = Kp * error + Ki * integral + Kd * derivative
+                new_angle = 90 + correction
+                new_angle = max(45, min(135, new_angle))  # Begrenzung
 
-            self.car.drive(new_angle=new_angle)
-            last_error = error
-            time.sleep(0.05)
-            
+                if self.car.speed > 0:
+                    last_steering_angle = new_angle
+
+                self.car.drive(new_angle=new_angle, new_speed=30)
+                last_error = error
+                time.sleep(0.25)
+                
+                
+                    #break 
+            if sum(self.car.digital) == 5:
+                self.car.stop()
+                break
         self.car.stop()
 
     #def fahrmodus_8(self):
