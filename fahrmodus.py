@@ -214,22 +214,22 @@ class Fahrmodus:
                 self.car.drive(new_speed=40, new_angle=45)
                 time.sleep(0.1)
             elif self.car.digital == [1,1,0,0,0]:
-                self.car.drive(new_speed=40, new_angle=56)
+                self.car.drive(new_speed=40, new_angle=60)
                 time.sleep(0.1)
             elif self.car.digital == [0,1,0,0,0]:
-                self.car.drive(new_speed=40, new_angle=67)
+                self.car.drive(new_speed=40, new_angle=70)
                 time.sleep(0.1)
             elif self.car.digital == [0,1,1,0,0]:
-                self.car.drive(new_speed=40, new_angle=78)
+                self.car.drive(new_speed=40, new_angle=80)
             elif self.car.digital == [0,0,1,0,0]:
                 self.car.drive(new_speed=40, new_angle=90)
             elif self.car.digital == [0,0,1,1,0]:
-                self.car.drive(new_speed=40, new_angle=101)
+                self.car.drive(new_speed=40, new_angle=100)
             elif self.car.digital == [0,0,0,1,0]:
-                self.car.drive(new_speed=40, new_angle=112)
+                self.car.drive(new_speed=40, new_angle=110)
                 time.sleep(0.1)
             elif self.car.digital == [0,0,0,1,1]:
-                self.car.drive(new_speed=40, new_angle=123)
+                self.car.drive(new_speed=40, new_angle=120)
                 time.sleep(0.1)
             elif self.car.digital == [0,0,0,0,1]:
                 self.car.drive(new_speed=40, new_angle=135)
