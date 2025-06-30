@@ -67,8 +67,8 @@ app = dash.Dash(__name__, external_stylesheets=[BOOTSTRAP])
  
 app.layout = dbc.Container([
     html.H1("🚗 Car Telemetry Dashboard", className="text-center my-4 text-info"),
- 
-    # Dropdown + Button
+    
+       # Dropdown + Button
     dbc.Row([
         dbc.Col(dbc.Card(dbc.CardBody([
             html.H4("Fahrmodus auswählen"),
@@ -104,13 +104,17 @@ app.layout = dbc.Container([
             html.H4("⚖️ Avg Speed"), html.H2(id="avg-speed", children=f"{avg_speed:.2f} km/h")
         ])), width=2),
         dbc.Col(dbc.Card(dbc.CardBody([
-            html.H4("🗺️ Total distance"), html.H2(id="total-distance", children=f"{total_distance_calculation} km")
+            html.H4("🗺️ Total distance"), html.H2(id="total-distance", children=f"{total_distance_calculation:.2f} cm")
         ])), width=2),
         dbc.Col(dbc.Card(dbc.CardBody([
-            html.H4("⏱️ Total Time"), html.H2(id="total-time", children=total_time_sec)
+            html.H4("⏱️ Total Time"), html.H2(id="total-time", children=f"{total_time_sec:.2f} sec")
         ])), width=2),
-    ], className="gy-4"),
- 
+    ], className="gy-4", style={
+        'display': 'flex',
+        'flexWrap': 'wrap',
+        'justifyContent': 'center',
+        'gap': '20px'}),  
+     
     # Diagramm
     dbc.Row([
         dbc.Col(dbc.Card(dbc.CardBody([
@@ -149,7 +153,7 @@ def update_dashboard(n_clicks, mode):
                   labels={'time': 'Zeit', 'speed': 'Geschwindigkeit (km/h)'},
                   template='plotly_dark')
  
-    return f"{max_speed} km/h", f"{min_speed} km/h", f"{avg_speed:.2f} km/h", total_time_sec, total_distance_calculation, fig
+    return f"{max_speed} km/h", f"{min_speed} km/h", f"{avg_speed:.2f} km/h", f"{total_time_sec:.2f} sek", f"{total_distance_calculation:.2f}", fig
  
 if __name__ == '__main__':
     app.run(debug=True)
