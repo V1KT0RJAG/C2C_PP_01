@@ -23,6 +23,8 @@ class Fahrmodus:
             self.fahrmodus_6()
         if mode == 7:
             self.fahrmodus_7()
+        if mode == 8:
+            self.fahrmodus_8()
         else:
             self.car.stop()
             print("Bitte gultige Mode auswaehlen")
@@ -315,7 +317,11 @@ class Fahrmodus:
             elif self.car.digital == [0,0,0,0,1]:
                 self.car.drive(new_speed=40, new_angle=135)
                 time.sleep(0.1)
-
+                
 
         self.car.stop()
 
+    def fahrmodus_8(self):
+        #print("Fahrmodus 8: Erweiterte Linienverfolgung mit Hindernisserkennung")
+        #self.car.get_ir()
+        pass
