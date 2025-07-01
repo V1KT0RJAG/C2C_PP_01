@@ -118,7 +118,7 @@ if __name__ == "__main__":
     last_error = 0
     integral = 0
 
-    while time.time() - start_time <= 15:
+    while time.time() - start_time <= 33:
         sc.get_ir()
         
         if sum(sc.digital) == 0:
@@ -135,7 +135,7 @@ if __name__ == "__main__":
                 break
             else:
                 print("Linie wiedergefunden – Fortsetzung der Fahrt.")
-                sc.drive(new_speed=30, new_angle=90) # <<< WICHTIG: Wieder losfahren
+                sc.drive(new_speed=40, new_angle=90) # <<< WICHTIG: Wieder losfahren
                 continue
         # Berechne Fehler (Abweichung von der Mitte)
         error = sum(w * s for w, s in zip(weights, sc.digital))

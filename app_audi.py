@@ -4,7 +4,7 @@ from sensorcar import SensorCar
 import dash
 from dash import dcc, html
 import dash_bootstrap_components as dbc
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
@@ -21,7 +21,7 @@ usm = Ultrasonic()
 sc = SonicCar(fw, bw, ultra=usm)
 ir = Infrared()
 sensor_c = SensorCar(fw, bw, ultra=usm, infra=ir)
-fm = Fahrmodus(sc)
+fm = Fahrmodus(sensor_c)
 
 # Initialdaten laden
 if os.path.exists("sonic_log.csv"):
@@ -38,10 +38,10 @@ if os.path.exists("sonic_log.csv"):
 
 # Funktion zur Berechnung der KPIs
 def calculate_kpis(df):
-    max_speed = df['speed'].max()
+    max_speed = (df['speed'].max())*0.2778
     #?? negative Geschwindigkeit
-    min_speed = df['speed'].min()
-    avg_speed = abs(df['speed'].mean())
+    min_speed = (df['speed'].min())*0.2778
+    avg_speed = (df['speed'].abs().mean())*0.2778
     avg_speed_fl =  avg_speed.item() 
     total_time = df['UTCtime'].max() - df['UTCtime'].min()
     total_time_sec = total_time.item()
@@ -56,7 +56,10 @@ max_speed, min_speed, avg_speed, total_time_sec, total_distance_calculation = ca
 
 df['time'] = pd.to_datetime(df['UTCtime'], unit='s')
 fig = px.line(df, x='time', y='speed', title='Geschwindigkeit über Zeit',
-              labels={'time': 'Zeit', 'speed': 'Geschwindigkeit (km/h)'},
+              labels={'time': 'Zeit', 'speed': 'Geschwindigkeit (cm/s)'},
+              template='plotly_dark')
+fig_2 = px.line(df, x='time', y='steering_angle', title='Lenkwinkel über Zeit',
+              labels={'time': 'Zeit', 'steering_angle': 'Lenkwinkel (°)'},
               template='plotly_dark')
 
 # URL zum Bootstrap 5.3 Stylesheet – ermöglicht die Nutzung von Bootstrap-Klassen wie 'btn', 'row', 'col', 'text-center' usw.
@@ -95,13 +98,13 @@ app.layout = dbc.Container([
     # KPI-Karten
     dbc.Row([
         dbc.Col(dbc.Card(dbc.CardBody([
-            html.H4("🏁 Max Speed"), html.H2(id="max-speed", children=f"{max_speed} km/h")
+            html.H4("🏁 Max Speed"), html.H2(id="max-speed", children=f"{max_speed} cm/s")
         ])), width=2),
         dbc.Col(dbc.Card(dbc.CardBody([
-            html.H4("🐢 Min Speed"), html.H2(id="min-speed", children=f"{min_speed} km/h")
+            html.H4("🐢 Min Speed"), html.H2(id="min-speed", children=f"{min_speed} cm/s")
         ])), width=2),
         dbc.Col(dbc.Card(dbc.CardBody([
-            html.H4("⚖️ Avg Speed"), html.H2(id="avg-speed", children=f"{avg_speed:.2f} km/h")
+            html.H4("⚖️ Avg Speed"), html.H2(id="avg-speed", children=f"{avg_speed:.2f} cm/s")
         ])), width=2),
         dbc.Col(dbc.Card(dbc.CardBody([
             html.H4("🗺️ Total distance"), html.H2(id="total-distance", children=f"{total_distance_calculation:.2f} cm")
@@ -120,6 +123,12 @@ app.layout = dbc.Container([
         dbc.Col(dbc.Card(dbc.CardBody([
             dcc.Graph(id="speed-graph", figure=fig)
         ])), width=12)
+    ], className="gy-4"), 
+
+    dbc.Row([
+        dbc.Col(dbc.Card(dbc.CardBody([
+            dcc.Graph(id="steering_angle_graph", figure=fig_2)
+        ])), width=12)
     ], className="gy-4")
 ], fluid=True)
  
@@ -132,7 +141,7 @@ app.layout = dbc.Container([
     Output('total-distance', 'children'),
     Output('speed-graph', 'figure'),
     Input('start-button', 'n_clicks'),
-    Input('mode-dropdown', 'value')
+    State('mode-dropdown', 'value')
 )
 
 #reihenfolge muss mit Input übereinstimmen
@@ -140,20 +149,23 @@ def update_dashboard(n_clicks, mode):
     if n_clicks is None:
        # return dash.no_update,"","","",""
        return dash.no_update
- 
+  
     # Fahrmodus ausführen
     #subprocess.run(["python3", "carmain.py"])
     fm.user_selected_mode(mode)
- 
+
     # Neue Daten laden
     df = pd.read_csv('sonic_log.csv', delimiter=',')
     max_speed, min_speed, avg_speed, total_time_sec, total_distance_calculation = calculate_kpis(df)
     df['time'] = pd.to_datetime(df['UTCtime'], unit='s')
     fig = px.line(df, x='time', y='speed', title='Geschwindigkeit über Zeit',
-                  labels={'time': 'Zeit', 'speed': 'Geschwindigkeit (km/h)'},
-                  template='plotly_dark')
- 
-    return f"{max_speed} km/h", f"{min_speed} km/h", f"{avg_speed:.2f} km/h", f"{total_time_sec:.2f} sek", f"{total_distance_calculation:.2f}", fig
+                labels={'time': 'Zeit', 'speed': 'Geschwindigkeit  cm/s)'},
+                template='plotly_dark')
+    fig_2 = px.line(df, x='time', y='steering_angle', title='Lenkwinkel über Zeit',
+              labels={'time': 'Zeit', 'steering_angle': 'Lenkwinkel (°)'},
+              template='plotly_dark')
+
+    return f"{max_speed} cm/s", f"{min_speed} cm/s", f"{avg_speed:.2f} cm/s", f"{total_time_sec:.2f} sek", f"{total_distance_calculation:.2f} cm", fig, fig_2
  
 if __name__ == '__main__':
     app.run(debug=True)
