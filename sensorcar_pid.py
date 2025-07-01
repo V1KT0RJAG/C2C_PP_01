@@ -32,7 +32,7 @@ class SensorCar(BaseCar):
 
         print("[Fehler] Keine gültige Distanzmessung möglich.") 
         #self.stop()  
-        return -5
+        return 0
 
     def get_ir(self):
         #Logik aufbauen
@@ -63,7 +63,8 @@ class SensorCar(BaseCar):
 
     def increase_references_by_20(self) -> None:
         if hasattr(self.infra, '_references') and self.infra._references is not None:
-            increased = np.array(self.infra._references) + 20
+            increased = np.array(self.infra._references) + 10
+            0
             #Sensorwert +20 vorgeben
             self.infra.set_references(increased.tolist())
             print('references erhöht:', self.infra._references)
@@ -90,117 +91,65 @@ if __name__ == "__main__":
     ir.cali_references()
     sc.increase_references_by_20()
     ir.set_references
+    print("Starte IR-Sensor-Test...")
+    for i in range(10):
+        analog, digital = sc.get_ir()
+        print(f"Test {i+1}: Analog: {analog} | Digital: {digital}")
+        time.sleep(0.5)
     time.sleep(5)
 
     # #fahrmodus 5
     # #linie vefolgen
-    print("Fahrmodus 5:")
+    print("Fahrmodus 8:")
     start_time = time.time()
     sc.drive(new_speed=45, new_angle=90)
+
     counter = 0
 
-    while time.time() - start_time < 40:
-    
-        
-        sc.get_ir()
+    start_time = time.time()
+    weights = [-2, -1, 0, 1, 2]  # Sensor-Gewichtung
 
+     # PID-Parameter
+    Kp = 15.0
+    Ki = 1.0
+    Kd = 8.0
+                
+
+    last_error = 0
+    integral = 0
+
+    while time.time() - start_time <= 15:
+        sc.get_ir()
+        
         if sum(sc.digital) == 0:
             print("Linie verloren – Rückwärtsfahren und Neuversuch.")
-            sc.drive(new_speed=-40, new_angle=90)  # Rückwärts geradeaus
+            sc.drive(new_speed=-30, new_angle=90)  # Rückwärts geradeaus
             time.sleep(1)  # 1 Sekunde rückwärts fahren
             sc.stop()
-            sc.get_ir()
             time.sleep(0.5)
+
             # Neuer Versuch: IR-Sensor erneut auslesen
+            sc.get_ir()
             if sum(sc.digital) == 0:
                 print("Linie weiterhin nicht gefunden – Fahrzeug gestoppt.")
                 break
             else:
                 print("Linie wiedergefunden – Fortsetzung der Fahrt.")
-                sc.drive(new_speed=40) # <<< WICHTIG: Wieder losfahren
+                sc.drive(new_speed=30, new_angle=90) # <<< WICHTIG: Wieder losfahren
+                continue
+        # Berechne Fehler (Abweichung von der Mitte)
+        error = sum(w * s for w, s in zip(weights, sc.digital))
+        integral += error
+        derivative = error - last_error
 
-        # if sum(sc.digital) == 0:
-        #     counter += 1
-            # if counter > 300:
-            #     # Wenn alle Sensoren 0 melden, ist die Linie verloren
-            #     print("Linie verloren – Fahrzeug gestoppt.")
-            #     sc.stop()
-            #     break
-            # continue
-            # #time.sleep(1.5)
-        if sc.digital == [1,0,0,0,0]:
-            sc.drive(new_angle=45)
-            time.sleep(0.1)
-        elif sc.digital == [1,1,0,0,0]:
-            sc.drive(new_angle=60)
-            time.sleep(0.1)
-        elif sc.digital == [0,1,0,0,0]:
-            sc.drive(new_angle=75)
-            time.sleep(0.1)
-        elif sc.digital == [0,1,1,0,0]:
-            sc.drive(new_angle=80)
-        elif sc.digital == [0,0,1,0,0]:
-            sc.drive(new_angle=90)
-        elif sc.digital == [0,0,1,1,0]:
-            sc.drive(new_angle=95)
-        elif sc.digital == [0,0,0,1,0]:
-            sc.drive(new_angle=120)
-            time.sleep(0.1)
-        elif sc.digital == [0,0,0,1,1]:
-            sc.drive(new_angle=125)
-            time.sleep(0.1)
-        elif sc.digital == [0,0,0,0,1]:
-            sc.drive(new_angle=135)
-            time.sleep(0.1)
+        # PID-Regelung
+        correction = Kp * error + Ki * integral + Kd * derivative
+        new_angle = 90 + correction
+        new_angle = max(45, min(135, new_angle))  # Begrenzung
 
-    
-
-        # if sc.digital == [0, 0, 1, 0, 0]:
-        #     sc.drive(new_angle=90)  # Geradeaus
-        # elif sc.digital [0] == 1 or sc.digital [1] == 1:
-        #     sc.drive(new_angle=55)  # Nach links lenken
-        # elif sc.digital [3] == 1 or sc.digital [4] == 1:
-        #     sc.drive(new_angle=125) # Nach rechts lenken   
-        # else:
-        #     sc.drive(new_angle=90)  # Standard: geradeaus
-        #time.sleep(0.1)  # Kurze Pause für stabile Steuerung
-    """     #[1,0,0,0,0]
-        elif sc.digital[0] == 1:
-            sc.drive(new_speed=20, new_angle=45)
-
-        #[1,1,0,0,0]
-        elif sc.digital[0] == 1 and sc.digital[1] == 1:
-            sc.drive(new_speed=20, new_angle=60)
-
-        #[0,1,0,0,0]
-        elif sc.digital[1] == 1:
-            sc.drive(new_speed=20, new_angle=75)
-
-        #[0,1,1,0,0]
-        elif sc.digital[1] == 1 and sc.digital[2] ==1:
-            sc.drive(new_speed=20, new_angle=80)
-
-        #[0,0,1,0,0] 
-        elif sc.digital[2] == 1:
-            sc.drive(new_speed=20, new_angle=90)
-
-        #[0,0,1,1,0]
-        elif sc.digital[2] == 1 and sc.digital[3] ==1:
-            sc.drive(new_speed=20, new_angle=95)
-
-        #[0,0,0,1,0]
-        elif sc.digital[3] == 1:
-            sc.drive(new_speed=20, new_angle=120)
-
-        #[0,0,0,1,1]
-        elif sc.digital[3] == 1 and sc.digital[4] == 1:
-            sc.drive(new_speed=20, new_angle=125)
-
-        #[0,0,0,0,1]
-        elif sc.digital[4] == 1:
-            sc.drive(new_speed=20, new_angle=135)
-        
-        time.sleep(0.1)  # Kurze Pause für stabile Steuerung """
+        sc.drive(new_angle=new_angle)
+        last_error = error
+        time.sleep(0.05)
 
     sc.drive(new_speed=0, new_angle=90)
     sc.stop()

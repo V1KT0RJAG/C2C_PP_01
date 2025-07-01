@@ -1,5 +1,6 @@
-from basisklassen import FrontWheels, BackWheels, Ultrasonic
+from basisklassen import FrontWheels, BackWheels, Ultrasonic, Infrared
 from basecar import BaseCar
+from sensorcar import SensorCar
 from fahrmodus import Fahrmodus
 from soniccar import SonicCar
 import time
@@ -14,6 +15,8 @@ import numpy as np
 fw = FrontWheels()
 bw = BackWheels() 
 usm = Ultrasonic()
+ir = Infrared()
+sensor_c = SensorCar(fw, bw, ultra=usm, infra=ir)
 
 """ car = BaseCar(fw, bw)
 
@@ -23,23 +26,22 @@ modus.fahrmodus_2() """
 
 sc = SonicCar(fw, bw, ultra=usm)
 modus = Fahrmodus(sensor_c)
-
-modus.fahrmodus_7() 
+modus.fahrmodus_8() 
 #modus.fahrmodus_3(stop_distance=20)
-#modus.fahrmodus_4(duration=45)
+# modus.fahrmodus_4(duration=45)
 
 #for eintrag in sc.log_status():
     #readable_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(eintrag["timestamp"]))
     #print(eintrag)#f"Zeit: {readable_time}, Geschwindigkeit: {eintrag['speed']}")
 
 #print(sc.log_status())
-log_df = DataFrame(sc.data)
+# log_df = DataFrame(sc.data)
 
 # initial_fig = px.line(log_df, x="timestamp", y="speed")
 
 # initial_fig.show()
 
-log_df.to_csv("sonic_log.csv", index = False)
+# log_df.to_csv("sonic_log.csv", index = False)
 
 
 
